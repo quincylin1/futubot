@@ -1,0 +1,7 @@
+dash
+dash-bootstrap-components
+dash-core-components
+futu-api
+numpy
+pandas
+plotly
