@@ -18,10 +18,10 @@ class Robot(Accounts):
                  filter_trdmarket=TrdMarket.HK,
                  security_firm=SecurityFirm.FUTUSECURITIES,
                  paper_trading=False,
-                 pwd_unlock='******',
+                 password='******',
                  order_type='limit'):
         super(Robot, self).__init__(host, port, filter_trdmarket,
-                                    security_firm, paper_trading, pwd_unlock)
+                                    security_firm, paper_trading, password)
         self.trades = {}
         self.historical_quotes = {}
         self.stockframe = None
