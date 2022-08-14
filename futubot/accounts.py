@@ -8,9 +8,8 @@ from futu import (RET_OK, KLType, Market, ModifyOrderOp, OpenQuoteContext,
 class Accounts:
     """An Accounts class containing all the necessary Futu APIs for FutuBot.
 
-    The idea is that all the Futu APIs which are used by FutuBot classes are
-    abstracted from the Accounts class, so the APIs are imported from the
-    Accounts class only.
+    All the Futu APIs which are used by FutuBot classes are called in
+    Accounts class in order to abstract them away from all other classes.
 
     Args:
         host (str): FutuOpenD listening address. Default: '127.0.0.1'.

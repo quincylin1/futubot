@@ -12,6 +12,20 @@ from .stockframe import StockFrame
 
 
 class Robot(Accounts):
+    """Implementation of the main logic of FutuBot.
+
+    Args:
+        host (str): FutuOpenD listening address. Default: '127.0.0.1'.
+        port (int): FutuOpenD listening port. Default: 11111.
+        filter_trdmarket (TrdMarket): Filter accounts according to the
+            transaction market authority. Default: TrdMarket.HK.
+        security_firm (SecurityFirm): Specified security firm.
+            Default: SecurityFirm.FUTUSECURITIES.
+        paper_trading (bool): Whether to enable paper trading or not.
+            Default: False.
+        password (str): Transaction password.
+        order_type (str): The type of order. Default: limit.
+    """
     def __init__(self,
                  host='127.0.0.1',
                  port=11111,
@@ -32,7 +46,30 @@ class Robot(Accounts):
 
     @staticmethod
     def is_regular_trading_time():
+        """Check whether current time is within regular trading time.
 
+        For TrdMarket.HK, the regular trading time of HKEX is from
+        HKT 9:30:00 to 16:00:00. Market is temporarily closed from
+        12:00:00 to 13:00:00 for lunch break, during which FutuBot is
+        put on sleep.
+
+        Returns:
+            bool: True if current time is in regular trading time,
+                otherwise False (put on sleep if current time is
+                within lunch break).
+
+        Examples:
+        >>> current_time = 10:00:00
+        >>> Robot.is_regular_trading_time()
+        True
+        >>> current_time = 12:30:00
+        >>> Robot.is_regular_trading_time()
+        Trading is temporarily pasued during lunch break.
+        Sleep time: 1800 s
+        >>> current_time = 17:00:00
+        >>> Robot.is_regular_trading_time()
+        False
+        """
         morning_market_start_time = datetime.utcnow().replace(
             hour=1, minute=30, second=00).timestamp()
         morning_market_end_time = datetime.utcnow().replace(
@@ -63,8 +100,9 @@ class Robot(Accounts):
             time_diff = datetime.fromtimestamp(
                 lunch_break_end_time) - datetime.fromtimestamp(current_time)
             time_diff = int(time_diff.total_seconds())
+
             print('Trading is temporarily pasued during lunch break.')
-            print('Sleep time', time_diff)
+            print(f'Sleep time: {time_diff} s')
             time.sleep(time_diff)
 
             return True
@@ -72,7 +110,35 @@ class Robot(Accounts):
         return False
 
     def create_portfolio(self, stocks_of_interest=None):
+        """Create a new portfolio object.
 
+        The function instantiates a Portfolio object and adds instruments
+        (stocks) to the portfolio. It first looks for existing stocks in
+        the given trading account and adds to the portfolio, and then adds
+        the extra stocks specified by the stocks_of_interest that are not
+        included in the trading account to the portfolio. If the trading
+        account does not hold any existing stock and stocks_of_interest is
+        None, a ValueError is raised in order to avoid an empty portfolio.
+
+        Args:
+            stocks_of_interest (list[str]): A list of the codes of stocks
+                of interest.
+
+        Returns:
+            (Portfolio): A futubot.portfolio.Portfolio object containing
+                stocks in trading account as well as stocks of interest.
+
+        Examples:
+        >>> portfolio = trading_robot.create_portfolio(
+            stocks_of_interest=cfg_dict['stocks_of_interest'])
+        >>> portfolio
+        <futubot.portfolio.Portfolio object at 0x7fc160f86d60>
+        >>> portfolio.positions
+        {'HK.00700': {'code': 'HK.00700', 'qty': 100.0,
+            'stock_name': 'TENCENT'},
+         'HK.09988': {'code': 'HK.09988', 'qty': 0,
+             'stock_name': 'BABA-SW'}}
+        """
         self.portfolio = Portfolio(filter_trdmarket=self.filter_trdmarket,
                                    host=self.host,
                                    port=self.port,
@@ -84,12 +150,10 @@ class Robot(Accounts):
         if stocks_of_interest is None and not existing_positions:
             raise ValueError('Cannot have an empty portfolio.'
                              'Please indicate your stocks of interest!')
-
         else:
             if existing_positions:
 
                 for code in list(existing_positions.keys()):
-
                     self.portfolio.add_position(
                         code=code,
                         stock_name=existing_positions[code]['stock_name'],
@@ -97,7 +161,6 @@ class Robot(Accounts):
                     )
 
             if stocks_of_interest is not None:
-
                 market_state = self.get_market_state(
                     code_list=stocks_of_interest)
 
@@ -113,7 +176,27 @@ class Robot(Accounts):
             return self.portfolio
 
     def create_stockframe(self, data):
+        """Create a new stockframe object.
 
+        The function instantiates a new StockFrame object and adds
+        the historical candlestick data of all the stocks in the portfolio
+        object to it. The StockFrame object contains a frame attribute, which
+        is a MultiIndex pd.DataFrame with index (code, time_key) and columns
+        open, close, high, low, volume.
+
+        Args:
+            data (list[dict]): Candlestick data in portfolio to be
+                added to the StockFrame.
+
+        Returns:
+            (StockFrame): A futubot.stockframe.StockFrame object containing
+                candlestick data for stocks in portfolio.
+
+        Examples:
+        >>> stockframe = trading_robot.create_stockframe(data
+            =historical_quotes)
+        <futubot.stockframe.StockFrame object at 0x7f9979305e80>
+        """
         self.stockframe = StockFrame(data=data)
 
         return self.stockframe
