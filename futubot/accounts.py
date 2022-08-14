@@ -633,48 +633,46 @@ class Accounts:
         all orders for simulated account. Market and transaction connection are
         closed after all orders are cancelled.
         """
-        if self.paper_trading is False:
-            unlock_trade = self.unlock_trade(self.password)
-            if unlock_trade is False:
-                print('Cannot unlock trading account!')
+        if self.unlock_trade(self.password):
+            if self.paper_trading:
+                pending_orders = self.check_today_orders(
+                    status_filter_list=['SUBMITTING', 'SUBMITTED'])
+
+                if pending_orders is not None:
+                    pending_order_ids = pending_orders['order_id'].to_list()
+
+                    for pending_order_id in pending_order_ids:
+
+                        ret, data = self.trade_context.modify_order(
+                            modify_order_op=ModifyOrderOp.CANCEL,
+                            order_id=pending_order_id,
+                            qty=0,
+                            price=0,
+                            trd_env=self.trd_env)
+                        if ret == RET_OK:
+                            print(data)
+                        else:
+                            print('Error in cancel_all_orders: ', data)
+
+                        # Prevent calling consecutive requests too frequently.
+                        time.sleep(0.1)
+                else:
+                    print('No pending orders exist.')
+
                 self.close_quote_context()
                 self.close_trade_context()
 
-        if self.paper_trading:
-            pending_orders = self.check_today_orders(
-                status_filter_list=['SUBMITTING', 'SUBMITTED'])
-
-            if pending_orders is not None:
-                pending_order_ids = pending_orders['order_id'].to_list()
-
-                for pending_order_id in pending_order_ids:
-
-                    ret, data = self.trade_context.modify_order(
-                        modify_order_op=ModifyOrderOp.CANCEL,
-                        order_id=pending_order_id,
-                        qty=0,
-                        price=0,
-                        trd_env=self.trd_env)
-                    if ret == RET_OK:
-                        print(data)
-                    else:
-                        print('Error in cancel_all_orders: ', data)
-
-                    # Prevent calling consecutive requests too frequently.
-                    time.sleep(0.1)
             else:
-                print('No pending orders exist.')
+                ret, data = self.trade_context.cancel_all_order(
+                    trd_env=self.trd_env, trdmarket=self.filter_trdmarket)
+                if ret == RET_OK:
+                    print(data)
+                else:
+                    print('Error in cancel_all_orders: ', data)
 
-            self.close_quote_context()
-            self.close_trade_context()
-
+                self.close_quote_context()
+                self.close_trade_context()
         else:
-            ret, data = self.trade_context.cancel_all_order(
-                trd_env=self.trd_env, trdmarket=self.filter_trdmarket)
-            if ret == RET_OK:
-                print(data)
-            else:
-                print('Error in cancel_all_orders: ', data)
-
+            print('Unlock trade failed!')
             self.close_quote_context()
             self.close_trade_context()
