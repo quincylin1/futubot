@@ -62,7 +62,8 @@ app = dash.Dash(__name__, external_stylesheets=[dbc.themes.SLATE])
 
 app.layout = html.Div([
     html.Div(
-        [dcc.Interval(id='interval-component', interval=10000, n_intervals=0)]),
+        [dcc.Interval(id='interval-component', interval=10000,
+                      n_intervals=0)]),
     html.Br(),
     dbc.Row([
         dbc.Col(dcc.Dropdown(id='code_names',
