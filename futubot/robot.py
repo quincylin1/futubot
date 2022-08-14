@@ -255,7 +255,9 @@ class Robot(Accounts):
                 qty = self.portfolio.holdings[code]
 
                 # Check if exceed max sell power:
-                max_power = self.get_max_power(code=code, price=price)
+                max_power = self.get_max_power(code=code,
+                                               price=price,
+                                               order_type=self.order_type)
                 if qty <= max_power['max_position_sell']:
                     order_info = self.place_order(
                         price=price,
