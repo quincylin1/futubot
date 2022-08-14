@@ -232,7 +232,9 @@ class Robot(Accounts):
                 qty = lot_sizes[code]
 
                 # Check if exceed max buy power:
-                max_power = self.get_max_power(code=code, price=price)
+                max_power = self.get_max_power(code=code,
+                                               price=price,
+                                               order_type=self.order_type)
                 if qty < max_power['max_cash_buy']:
                     order_info = self.place_order(price=price,
                                                   qty=qty,
