@@ -204,16 +204,45 @@ class Robot(Accounts):
     def get_historical_quotes(self,
                               start_date,
                               end_date,
-                              codes=None,
+                              code_list=None,
                               ktype=KLType.K_1M,
                               max_count=1000):
+        """Get historical quotes of all stocks in portfolio.
 
+        This function gets the historical candlestick data of
+        all the stocks present in the portfolio as a pandas DataFrame.
+        The candlestick data are between start_date and end_date with
+        ktype candlestick. The dataframe is parsed into a list of dicts
+        of historical prices.
+
+        Args:
+            start_date: The start time in format yyyy-MM-dd.
+            end_date: The end time in format yyyy-MM-dd.
+            code_list: The list of code for which historical quotes
+                are queried. Default: None, meaning all stocks in
+                portfolio are queried.
+            ktype (KLType): The type of candlestick. Default: K_1M.
+            max_count (int): The maximum number of candlesticks
+                returned. Default: 1000.
+
+        Returns:
+            historical_prices (list[dict]): A list of dicts of
+                historical quotes. The dict contains the following keys
+                    time_key (str): Candlestick time in format
+                        yyyy-MM-dd HH:mm:ss.
+                    code (str): The code of security.
+                    open (float): Open price.
+                    close (float): Close price.
+                    high (float): High price.
+                    low (float): Low price.
+                    volume (int): Trading volume
+        """
         historical_prices = []
 
-        if codes is None:
-            codes = self.portfolio.positions.keys()
+        if code_list is None:
+            code_list = list(self.portfolio.positions.keys())
 
-        for code in codes:
+        for code in code_list:
             historical_quotes = self.get_historical_candles(
                 code=code,
                 start=start_date,
@@ -236,22 +265,57 @@ class Robot(Accounts):
         return historical_prices
 
     def get_latest_bar(self,
-                       codes=None,
+                       code_list=None,
                        ktype=KLType.K_1M,
                        max_count=1000,
                        demo=False,
                        **kwargs):
+        """Get the lateest bars of all stocks in portfolio.
 
+        This function gets the last candlestick data of
+        all the stocks present in the portfolio as a pandas DataFrame.
+        For demo mode, start_date and end_date must be specified.
+        For live mode, the end_time corresponds to the current datetime,
+        and the start_time is behind the end_time by a lookback period,
+        whose length depends on the type of candlestick specified by ktype.
+
+        Args:
+            code_list: The list of code for which historical quotes
+                are queried. Default: None, meaning all stocks in
+                portfolio are queried.
+            ktype (KLType): The type of candlestick. Default: K_1M.
+            max_count (int): The maximum number of candlesticks
+                returned. Default: 1000.
+            demo (bool): Whether to run in demo mode or not. Default:
+                False.
+            kwargs: Optional keyword arguments. If in demo mode, start_date
+                and end_date in format yyyy-MM-dd HH:mm:ss must be provided.
+
+        Returns:
+            latest_prices (list[dict]): A list of dicts of
+                latest quotes. The dict contains the following keys
+                    time_key (str): Candlestick time in format
+                        yyyy-MM-dd HH:mm:ss.
+                    code (str): The code of security.
+                    open (float): Open price.
+                    close (float): Close price.
+                    high (float): High price.
+                    low (float): Low price.
+                    volume (int): Trading volume
+        """
         if not isinstance(demo, bool):
             raise TypeError(f'Only bool type is supported for demo, '
                             f'but got {type(demo)}')
 
         latest_prices = []
 
-        if codes is None:
-            codes = self.portfolio.positions.keys()
+        if code_list is None:
+            code_list = list(self.portfolio.positions.keys())
 
         if demo is True:
+            if 'start_date' not in kwargs or 'end_date' not in kwargs:
+                raise KeyError(
+                    'kwargs must contain key start_date and end_date')
             start_date = kwargs['start_date']
             end_date = kwargs['end_date']
 
@@ -270,7 +334,7 @@ class Robot(Accounts):
             end_date = end_date.strftime('%Y-%m-%d %H:%M:%S')
             start_date = start_date.strftime('%Y-%m-%d %H:%M:%S')
 
-        for code in codes:
+        for code in code_list:
             historical_quotes = self.get_historical_candles(
                 code=code,
                 start=start_date,
@@ -293,7 +357,30 @@ class Robot(Accounts):
         return latest_prices
 
     def execute_signals(self, buy_sell_signals):
+        """Execute the buy and sell signals.
 
+        This function places buy and sell orders based on
+        buy_sell_signals. When a buy signal is present for a given code,
+        the function first checks if the current trading account
+        exceeds the maximum cash buying power, and then buys one lot of
+        stock if there is enough cash buying power. Conversely, when a
+        sell signal is present, the function first checks if the account
+        exceeds the maximum position selling power, and then sell all
+        the current holding if there is sufficient selling power.
+
+        Args:
+            buy_sell_signals (dict[dict]): A dict of buy and sell
+                signals. The outer dict contains keys 'buys' and 'sells',
+                whose values correspond to the codes for which buy/sell
+                signals are triggered.
+
+        Returns:
+            order_infos (dict[dict]): A dict of order infos. The outer dict
+                with keys equal to the codes for which the buy/sell signals
+                are present. The inner dict contains keys: trd_side,
+                order_type, order_status, order_id, code, stock_name, qty,
+                price, create_time, updated_time.
+        """
         if not isinstance(buy_sell_signals, dict):
             raise TypeError(
                 f'Only dict type is supported for buy_sell_signals, '
@@ -354,7 +441,17 @@ class Robot(Accounts):
         return order_infos
 
     def wait_till_next_bar(self, last_bar_timestamp):
+        """Wait until the next bar data.
 
+        This function calculates the time difference between
+        the current time and the next bar time, which is 60
+        seconds after the last bar time, and then puts the
+        robot on sleep until the next bar time is reached.
+
+        Args:
+            last_bar_timestamp (str): The timestamp of the
+                last bar data in format yyyy-MM-dd HH:mm:ss.
+        """
         last_bar_timestamp = pd.to_datetime(last_bar_timestamp)
 
         last_bar_time = last_bar_timestamp.to_pydatetime()[0]
@@ -385,8 +482,16 @@ class Robot(Accounts):
         time.sleep(time_till_next_bar)
 
     def _keyboard_interrupt_handler(self, signum, frame):
+        """Cancel all pending orders when keyboard is interrupted.
+
+        This function call the cancel_all_orders() method when Ctrl-C is
+        pressed, and puts the robot on sleep forever until Ctrl-C is pressed
+        again, after which the program is exited.
+        """
         print('Ctrl-C is pressed, cancelling all pending orders now...')
+
         self.cancel_all_orders()
         signal.signal(signal.SIGINT, signal.SIG_DFL)
         print('Press Ctrl-C again to exit.')
+        # Put the program on sleep forever.
         time.sleep(99999999)

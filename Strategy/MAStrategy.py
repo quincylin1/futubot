@@ -23,7 +23,7 @@ class MAStrategy:
 
         buy_sell_signals = {'buys': {}, 'sells': {}}
 
-        codes = self.stockframe.frame.index.get_level_values(0).unique()
+        code_list = self.stockframe.frame.index.get_level_values(0).unique()
 
         if self.is_ema:
             ma_short = 'ema_' + str(self.short_period)
@@ -49,7 +49,7 @@ class MAStrategy:
 
         print(last_rows)
 
-        for code in codes:
+        for code in code_list:
             if self.existing_orders[code] is False:
                 if holdings[code] == 0:
                     if last_rows.loc[code,

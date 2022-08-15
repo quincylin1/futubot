@@ -23,7 +23,7 @@ class RSIStrategy:
 
         buy_sell_signals = {'buys': {}, 'sells': {}}
 
-        codes = self.stockframe.frame.index.get_level_values(0).unique()
+        code_list = self.stockframe.frame.index.get_level_values(0).unique()
 
         indicator = 'rsi_' + str(self.periods)
 
@@ -34,7 +34,7 @@ class RSIStrategy:
 
         print(last_rows)
 
-        for code in codes:
+        for code in code_list:
             if self.existing_orders[code] is False:
                 if holdings[code] == 0:
                     if last_rows.loc[code,

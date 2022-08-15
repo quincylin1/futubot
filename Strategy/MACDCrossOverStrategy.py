@@ -25,7 +25,7 @@ class MACDCrossOverStrategy:
 
         buy_sell_signals = {'buys': {}, 'sells': {}}
 
-        codes = self.stockframe.frame.index.get_level_values(0).unique()
+        code_list = self.stockframe.frame.index.get_level_values(0).unique()
 
         if 'macd' not in self.stockframe.frame.columns:
             self.indicator_client.macd(
@@ -39,7 +39,7 @@ class MACDCrossOverStrategy:
 
         print(last_rows)
 
-        for code in codes:
+        for code in code_list:
 
             if self.existing_orders[code] is False:
                 if holdings[code] == 0:
