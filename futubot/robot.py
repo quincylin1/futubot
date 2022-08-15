@@ -388,15 +388,16 @@ class Robot(Accounts):
 
         pprint.pprint(buy_sell_signals)
 
-        buy_signals = buy_sell_signals['buys']
-        sell_signals = buy_sell_signals['sells']
         order_infos = {}
 
-        if buy_signals:
-            codes = list(buy_signals.keys())
-            lot_sizes = self.get_lot_size(code_list=codes)
+        buy_signals = buy_sell_signals['buys']
+        sell_signals = buy_sell_signals['sells']
 
-            for code in codes:
+        if buy_signals:
+            code_list = list(buy_signals.keys())
+            lot_sizes = self.get_lot_size(code_list=code_list)
+
+            for code in code_list:
                 price = buy_signals[code]['close']
                 # Only buy one lot
                 qty = lot_sizes[code]
@@ -414,9 +415,9 @@ class Robot(Accounts):
                     order_infos[code] = order_info
 
         if sell_signals:
-            codes = list(sell_signals.keys())
+            code_list = list(sell_signals.keys())
 
-            for code in codes:
+            for code in code_list:
                 if code not in order_infos:
                     order_infos[code] = {}
 
@@ -484,7 +485,7 @@ class Robot(Accounts):
     def _keyboard_interrupt_handler(self, signum, frame):
         """Cancel all pending orders when keyboard is interrupted.
 
-        This function call the cancel_all_orders() method when Ctrl-C is
+        This function calls the cancel_all_orders() method when Ctrl-C is
         pressed, and puts the robot on sleep forever until Ctrl-C is pressed
         again, after which the program is exited.
         """
