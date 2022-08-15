@@ -552,6 +552,9 @@ class Accounts:
                         existing_orders[code] = True
                     else:
                         existing_orders[code] = False
+            else:
+                for code in code_list:
+                    existing_orders[code] = False
 
             return existing_orders
         else:
