@@ -1,5 +1,5 @@
 class Indicators:
-    """Common technical indicators.
+    """Implementation of common technical indicators.
 
     Args:
         stockframe (StockFrame): A stockframe object for which the
