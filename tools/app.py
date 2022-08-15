@@ -386,7 +386,7 @@ def run_futubot(n_intervals, code_name, indicator):
                                        name='Close'))
 
     volume_colors = [
-        'green' if row['open'] - row['close'] >= 0 else 'red'
+        '#16ff32' if row['open'] - row['close'] >= 0 else 'red'
         for _, row in df.iterrows()
     ]
 
