@@ -1,8 +1,11 @@
-from .stockframe import StockFrame
-
-
 class Indicators:
-    def __init__(self, stockframe: StockFrame):
+    """Common technical indicators.
+
+    Args:
+        stockframe (StockFrame): A stockframe object for which the
+            indicators are calculated.
+    """
+    def __init__(self, stockframe):
         self.stockframe = stockframe
         self.code_groups = stockframe.code_groups
         self.current_indicators = {}
@@ -10,22 +13,36 @@ class Indicators:
         self.code_list = stockframe.frame.index.get_level_values(0).to_list()
 
     def change_in_price(self, indicator='change_in_price'):
+        """Calculate the change in price.
 
+        The change in price is the difference between adjacent close
+        prices.
+
+        Args:
+            indicator (str): The name of the indicator. Default:
+                change_in_price.
+        """
         self.frame[indicator] = self.code_groups['close'].transform(
             lambda x: x.diff())
 
-    def rsi(self, periods=14, ewma=True):
+    def rsi(self, period=14, ema=True):
+        """Calculate the Relative Strength Index (RSI).
 
-        if not isinstance(periods, int):
-            raise TypeError(f'Only int type is supported for periods, '
-                            f'but got {type(periods)}')
-        assert periods > 0, (f'periods must be greater than 0, '
-                             f'but got {periods}')
+        Args:
+            period (int): The period of RSI calculation. Default: 14.
+            ema (bool): Whether to use exponential moving averages for
+                RSI calculation. Default: True.
+        """
+        if not isinstance(period, int):
+            raise TypeError(f'Only int type is supported for period, '
+                            f'but got {type(period)}')
+        assert period > 0, (f'period must be greater than 0, '
+                            f'but got {period}')
 
         locals_data = locals()
         del locals_data['self']
 
-        indicator = 'rsi_' + str(periods)
+        indicator = 'rsi_' + str(period)
 
         self.current_indicators[indicator] = {}
         self.current_indicators[indicator]['args'] = locals_data
@@ -40,20 +57,20 @@ class Indicators:
         self.frame['down'] = self.code_groups['change_in_price'].transform(
             lambda x: -1 * x.clip(upper=0))
 
-        if ewma:
+        if ema:
             self.frame['ma_up'] = self.code_groups['up'].transform(
-                lambda x: x.ewm(span=periods, adjust=True, min_periods=periods
+                lambda x: x.ewm(span=period, adjust=True, min_periods=period
                                 ).mean())
 
             self.frame['ma_down'] = self.code_groups['down'].transform(
-                lambda x: x.ewm(span=periods, adjust=True, min_periods=periods
+                lambda x: x.ewm(span=period, adjust=True, min_periods=period
                                 ).mean())
         else:
             self.frame['ma_up'] = self.code_groups['up'].transform(
-                lambda x: x.rolling(window=periods, adjust=False).mean())
+                lambda x: x.rolling(window=period, adjust=False).mean())
 
             self.frame['ma_down'] = self.code_groups['down'].transform(
-                lambda x: x.rolling(window=periods, adjust=False).mean())
+                lambda x: x.rolling(window=period, adjust=False).mean())
 
         relative_strength = self.frame['ma_up'] / self.frame['ma_down']
         relative_strength_index = 100.0 - (100.0 / (1.0 + relative_strength))
@@ -66,11 +83,15 @@ class Indicators:
             inplace=True)
 
     def sma(self, period=20):
+        """Calculate the Simple Moving Average (SMA).
 
+        Args:
+            period (int): The period of SMA calculation. Default: 20.
+        """
         if not isinstance(period, int):
             raise TypeError(f'Only int type is supported for period, '
                             f'but got {type(period)}')
-        assert period > 0, (f'periods must be greater than 0, '
+        assert period > 0, (f'period must be greater than 0, '
                             f'but got {period}')
 
         locals_data = locals()
@@ -85,25 +106,36 @@ class Indicators:
         self.frame[indicator] = self.code_groups['close'].transform(
             lambda x: x.rolling(window=period).mean())
 
-    def ema(self, periods=20, adjust=True):
+    def ema(self, period=20, adjust=True):
+        """Calculate the Exponential Moving Average (EMA).
 
-        if not isinstance(periods, int):
-            raise TypeError(f'Only int type is supported for periods, '
-                            f'but got {type(periods)}')
-        assert periods > 0, (f'periods must be greater than 0, '
-                             f'but got {periods}')
+        The decay is specified by period in terms of span:
+            alpha = 2 / (span + 1) for span >= 1.
+        The min_periods in ema calculation is equal to the period.
+
+        Args:
+            period (int): The period of EMA calculation. Default: 20.
+            adjust (bool): Whether to divide by decaying adjustment
+                factor in beginning periods to account for imbalance
+                in relative weightings. Default: True.
+        """
+        if not isinstance(period, int):
+            raise TypeError(f'Only int type is supported for period, '
+                            f'but got {type(period)}')
+        assert period > 0, (f'period must be greater than 0, '
+                            f'but got {period}')
 
         locals_data = locals()
         del locals_data['self']
 
-        indicator = 'ema_' + str(periods)
+        indicator = 'ema_' + str(period)
 
         self.current_indicators[indicator] = {}
         self.current_indicators[indicator]['args'] = locals_data
         self.current_indicators[indicator]['func'] = self.ema
 
         self.frame[indicator] = self.code_groups['close'].transform(
-            lambda x: x.ewm(span=periods, adjust=adjust, min_periods=periods
+            lambda x: x.ewm(span=period, adjust=adjust, min_periods=period
                             ).mean())
 
     def macd(self,
@@ -112,7 +144,18 @@ class Indicators:
              signal_length=9,
              adjust=False,
              indicator='macd'):
+        """Calculate the Moving Average Convergence Divergence (MACD).
 
+        Args:
+            fast_length (int): The period of the fast EMA. Default: 12.
+            slow_length (int): The period of the slow EMA. Default: 26.
+            signal_length (int): The period of the signal line. Default: 9.
+            adjust (bool): Whether to divide by decaying adjustment
+                factor in beginning periods to account for imbalance
+                in relative weightings when calculating EMAs.
+                Default: False.
+            indicator (str): The name of the indicator. Default: macd.
+        """
         if not isinstance(fast_length, int):
             raise TypeError(f'Only int type is supported for fast_length, '
                             f'but got {type(fast_length)}')
@@ -137,16 +180,16 @@ class Indicators:
         self.current_indicators[indicator]['args'] = locals_data
         self.current_indicators[indicator]['func'] = self.macd
 
-        self.frame['fast_ewma'] = self.code_groups['close'].transform(
+        self.frame['fast_ema'] = self.code_groups['close'].transform(
             lambda x: x.ewm(span=fast_length,
                             min_periods=fast_length,
                             adjust=adjust).mean())
-        self.frame['slow_ewma'] = self.code_groups['close'].transform(
+        self.frame['slow_ema'] = self.code_groups['close'].transform(
             lambda x: x.ewm(span=slow_length,
                             min_periods=slow_length,
                             adjust=adjust).mean())
 
-        self.frame['macd'] = self.frame['fast_ewma'] - self.frame['slow_ewma']
+        self.frame['macd'] = self.frame['fast_ema'] - self.frame['slow_ema']
 
         for code in self.code_list:
             self.frame.loc[code, 'signal'] = list(self.frame.loc[
@@ -157,12 +200,17 @@ class Indicators:
 
         self.frame['histogram'] = self.frame['macd'] - self.frame['signal']
 
-        self.frame.drop(labels=['fast_ewma', 'slow_ewma'],
-                        axis=1,
-                        inplace=True)
+        self.frame.drop(labels=['fast_ema', 'slow_ema'], axis=1, inplace=True)
 
     def bollinger_bands(self, period=20, indicator='bollinger_bands'):
+        """Calculate the Bollinger Bands.
 
+        Args:
+            period (int): The period of SMA for which the Bollinger Bands
+                are calculated. Default: 20.
+            indicator (str): The name of the indicator.
+                Default: bollinger_bands.
+        """
         if not isinstance(period, int):
             raise TypeError(f'Only int type is supported for period, '
                             f'but got {type(period)}')
@@ -188,21 +236,30 @@ class Indicators:
         self.frame.drop(labels=['std'], axis=1, inplace=True)
 
     def stochastic_oscillator(self,
-                              K_periods=14,
-                              D_periods=3,
+                              K_period=14,
+                              D_period=3,
                               indicator='stochastic_oscillator'):
+        """Calculate the Stochastic Oscillator.
 
-        if not isinstance(K_periods, int):
-            raise TypeError(f'Only int type is supported for K_periods, '
-                            f'but got {type(K_periods)}')
-        if not isinstance(D_periods, int):
-            raise TypeError(f'Only int type is supported for D_periods, '
-                            f'but got {type(D_periods)}')
+        Args:
+            K_period (int): The period of K-line (slow SMA).
+                Default: 14.
+            D_period (int): The period of the D-line (fast SMA).
+                Default: 3.
+            indicator (str): The name of the indicator.
+                Default: stochastic_oscillator.
+        """
+        if not isinstance(K_period, int):
+            raise TypeError(f'Only int type is supported for K_period, '
+                            f'but got {type(K_period)}')
+        if not isinstance(D_period, int):
+            raise TypeError(f'Only int type is supported for D_period, '
+                            f'but got {type(D_period)}')
 
-        assert K_periods > 0, (f'K_periods must be greater than 0, '
-                               f'but got {K_periods}')
-        assert D_periods > 0, (f'D_periods must be greater than 0, '
-                               f'but got {D_periods}')
+        assert K_period > 0, (f'K_period must be greater than 0, '
+                              f'but got {K_period}')
+        assert D_period > 0, (f'D_period must be greater than 0, '
+                              f'but got {D_period}')
 
         locals_data = locals()
         del locals_data['self']
@@ -211,26 +268,33 @@ class Indicators:
         self.current_indicators[indicator]['args'] = locals_data
         self.current_indicators[indicator]['func'] = self.stochastic_oscillator
 
-        self.frame['K_periods_high'] = self.code_groups['high'].transform(
-            lambda x: x.rolling(K_periods).max())
-        self.frame['K_periods_low'] = self.code_groups['low'].transform(
-            lambda x: x.rolling(K_periods).min())
+        self.frame['K_period_high'] = self.code_groups['high'].transform(
+            lambda x: x.rolling(K_period).max())
+        self.frame['K_period_low'] = self.code_groups['low'].transform(
+            lambda x: x.rolling(K_period).min())
 
         self.frame['%K'] = 100 * (
-            self.frame['close'] - self.frame['K_periods_low']) / (
-                self.frame['K_periods_high'] - self.frame['K_periods_low'])
+            self.frame['close'] - self.frame['K_period_low']) / (
+                self.frame['K_period_high'] - self.frame['K_period_low'])
 
         for code in self.code_list:
             self.frame.loc[code,
                            '%D'] = list(self.frame.loc[code, '%K'].transform(
-                               lambda x: x.rolling(window=D_periods).mean()))
+                               lambda x: x.rolling(window=D_period).mean()))
 
-        self.frame.drop(labels=['K_periods_high', 'K_periods_low'],
+        self.frame.drop(labels=['K_period_high', 'K_period_low'],
                         axis=1,
                         inplace=True)
 
     def standard_deviation(self, period=20, indicator='standard_deviation'):
+        """Calculate the Standard Deviation.
 
+        Args:
+            period (int): The period of SMA for which the standard deviation
+                is calculated. Default: 20.
+            indicator (str): The name of the indicator.
+                Default: standard_deviation.
+        """
         if not isinstance(period, int):
             raise TypeError(f'Only int type is supported for period, '
                             f'but got {type(period)}')
@@ -248,7 +312,7 @@ class Indicators:
             lambda x: x.rolling(window=period).std())
 
     def refresh(self):
-
+        """Refresh the current indicators after new rows are added."""
         self.code_groups = self.stockframe.code_groups
 
         for indicator in self.current_indicators:

@@ -21,7 +21,7 @@ def parse_args():
     parser = argparse.ArgumentParser(description='Run FutuBot')
     parser.add_argument('config', help='config file path')
     parser.add_argument('--output-dir', help='the directory to save the logs')
-    parser.add_argument('--display-all-col',
+    parser.add_argument('--display-all-cols',
                         action='store_true',
                         help='whether to display all columns of stockframe.')
     args = parser.parse_args()
@@ -34,7 +34,7 @@ args = parse_args()
 cfg_dict = Config.parse_config(cfg_pth=args.config)
 pprint.pprint(cfg_dict)
 
-if args.display_all_col:
+if args.display_all_cols:
     pd.set_option('display.max_columns', None)
 
 trading_robot = Robot(**cfg_dict['account'])

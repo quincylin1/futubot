@@ -35,13 +35,13 @@ class MAStrategy:
 
         if ma_short not in self.stockframe.frame.columns:
             if self.is_ema:
-                self.indicator_client.ema(periods=self.short_period)
+                self.indicator_client.ema(period=self.short_period)
             else:
                 self.indicator_client.sma(period=self.short_period)
 
         if ma_long not in self.stockframe.frame.columns:
             if self.is_ema:
-                self.indicator_client.ema(periods=self.long_period)
+                self.indicator_client.ema(period=self.long_period)
             else:
                 self.indicator_client.sma(period=self.long_period)
 

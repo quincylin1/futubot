@@ -6,7 +6,7 @@ class RSIStrategy:
                  existing_orders,
                  oversell_signal=30,
                  overbuy_signal=70,
-                 periods=14):
+                 period=14):
 
         self.stockframe = stockframe
         self.portfolio = portfolio
@@ -15,7 +15,7 @@ class RSIStrategy:
 
         self.oversell_signal = oversell_signal
         self.overbuy_signal = overbuy_signal
-        self.periods = periods
+        self.period = period
 
     def calculate_buy_sell_signals(self):
 
@@ -25,10 +25,10 @@ class RSIStrategy:
 
         code_list = self.stockframe.frame.index.get_level_values(0).unique()
 
-        indicator = 'rsi_' + str(self.periods)
+        indicator = 'rsi_' + str(self.period)
 
         if indicator not in self.stockframe.frame.columns:
-            self.indicator_client.rsi(periods=self.periods)
+            self.indicator_client.rsi(period=self.period)
 
         last_rows = self.stockframe.code_groups.tail(1)
 
