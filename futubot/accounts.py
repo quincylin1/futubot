@@ -399,7 +399,8 @@ class Accounts:
         if self.paper_trading is False:
             unlock_trade = self.unlock_trade(self.password)
             if unlock_trade is False:
-                raise ValueError('Cannot unlock trading account!')
+                raise ValueError(
+                    'Unlock_trade is False, cannot unlock trading account!')
 
         ret, data = self.trade_context.place_order(price=price,
                                                    qty=qty,
