@@ -33,14 +33,15 @@ class Accounts:
         self.port = port
         self.filter_trdmarket = filter_trdmarket
         self.security_firm = security_firm
-        self.quote_context = self.create_quote_context()
-        self.trade_context = self.create_trade_context()
-        self.trd_env = TrdEnv.REAL
         self.paper_trading = paper_trading
         self.password = password
+        self.quote_context = self.create_quote_context()
+        self.trade_context = self.create_trade_context()
 
         if self.paper_trading:
             self.trd_env = TrdEnv.SIMULATE
+        else:
+            self.trd_env = TrdEnv.REAL
 
     def create_quote_context(self):
         """Create and initialize market connection."""

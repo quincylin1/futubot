@@ -7,10 +7,10 @@ class Indicators:
     """
     def __init__(self, stockframe):
         self.stockframe = stockframe
-        self.code_groups = stockframe.code_groups
-        self.current_indicators = {}
         self.frame = stockframe.frame
         self.code_list = stockframe.frame.index.get_level_values(0).to_list()
+        self.code_groups = stockframe.code_groups
+        self.current_indicators = {}
 
     def change_in_price(self, indicator='change_in_price'):
         """Calculate the change in price.
