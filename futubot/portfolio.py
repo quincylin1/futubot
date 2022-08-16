@@ -166,12 +166,9 @@ class Portfolio(Accounts):
         return self._holdings
 
     # def get_holdings(self):
-
     #     holdings = {}
-
     #     for code in self.positions.keys():
     #         holdings[code] = self.positions[code]["qty"]
-
     #     return holdings
 
     def update_positions(self, order_infos):
@@ -205,11 +202,8 @@ class Portfolio(Accounts):
                 self.positions[code]['cost_price'] = cost_price
 
     # def update_positions(self):
-
     #     existing_positions = self.get_positions()
-
     #     for code in self.positions.keys():
-
     #         if code not in existing_positions:
     #             # code already been sold
     #             self.positions[code]["qty"] = 0
