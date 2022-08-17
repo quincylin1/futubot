@@ -37,9 +37,9 @@ pprint.pprint(cfg_dict)
 if args.display_all_cols:
     pd.set_option('display.max_columns', None)
 
-trading_robot = Robot(**cfg_dict['account'])
+futubot = Robot(**cfg_dict['account'])
 
-portfolio = trading_robot.create_portfolio(
+portfolio = futubot.create_portfolio(
     stocks_of_interest=cfg_dict['stocks_of_interest'])
 pprint.pprint(portfolio.positions)
 
@@ -48,10 +48,10 @@ end_date = cfg_dict['historical_quote_dates']['end_date']
 
 i = 0
 
-historical_quotes = trading_robot.get_historical_quotes(
+historical_quotes = futubot.get_historical_quotes(
     **cfg_dict['historical_quote_dates'], )
 
-stockframe = trading_robot.create_stockframe(data=historical_quotes)
+stockframe = futubot.create_stockframe(data=historical_quotes)
 
 indicator_client = Indicators(stockframe=stockframe)
 indicator_client.rsi()
@@ -165,7 +165,7 @@ app.layout = html.Div([
 
 def generate_trading_activiy_table():
 
-    today_order_info = trading_robot.check_today_orders()
+    today_order_info = futubot.check_today_orders()
 
     if today_order_info is None:
         return [
@@ -365,13 +365,13 @@ def run_futubot(n_intervals, code_name, indicator, start_date=start_date):
     end_date = end_date + i * timedelta(minutes=1)
     end_date = end_date.strftime('%Y-%m-%d %H:%M:%S')
 
-    latest_prices = trading_robot.get_latest_bar(start_date=start_date,
-                                                 end_date=end_date,
-                                                 demo=True)
+    latest_prices = futubot.get_latest_bar(start_date=start_date,
+                                           end_date=end_date,
+                                           demo=True)
     stockframe.add_rows(data=latest_prices)
     indicator_client.refresh()
 
-    existing_orders = trading_robot.check_existing_orders(
+    existing_orders = futubot.check_existing_orders(
         code_list=portfolio.holdings)
     print('existing_orders', existing_orders)
 
@@ -381,8 +381,7 @@ def run_futubot(n_intervals, code_name, indicator, start_date=start_date):
                                     **cfg_dict['strategy']['params'])
     buy_sell_signals = strategy_client.calculate_buy_sell_signals()
 
-    order_infos = trading_robot.execute_signals(
-        buy_sell_signals=buy_sell_signals)
+    order_infos = futubot.execute_signals(buy_sell_signals=buy_sell_signals)
     pprint.pprint(order_infos)
 
     portfolio.update_positions(order_infos=order_infos)
