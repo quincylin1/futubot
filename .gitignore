@@ -17,7 +17,6 @@ eggs/
 lib/
 lib64/
 parts/
-sdist/
 var/
 wheels/
 *.egg-info/
@@ -62,10 +61,6 @@ instance/
 
 # Scrapy stuff:
 .scrapy
-
-# Sphinx documentation
-docs/en/_build/
-docs/zh_cn/_build/
 
 # PyBuilder
 target/

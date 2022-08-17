@@ -37,6 +37,28 @@ class Portfolio(Accounts):
         self._historical_prices = []
         self._stockframe_daily = None
 
+    @property
+    def portfolio_info(self):
+        """Getter of portfolio_info property."""
+        return self._portfolio_info
+
+    @property
+    def holdings(self):
+        """Getter and setter for holdings property.
+
+        This function sets the values in holdings dict
+        to be the current holding quantities of codes in
+        portfolio. It also serves as a getter for the holdings
+        dict.
+
+        Returns:
+            (dict[int | float]): A dict of current holding quantities.
+        """
+        for code in self.positions.keys():
+            self._holdings[code] = self.positions[code]['qty']
+
+        return self._holdings
+
     def get_portfolio_info(self):
         """Get basic information of portfolio.
 
@@ -82,11 +104,6 @@ class Portfolio(Accounts):
                     'pnl_value']
 
         return portfolio_info
-
-    @property
-    def portfolio_info(self):
-        """Getter of portfolio_info property."""
-        return self._portfolio_info
 
     def add_position(self, code, stock_name, quantity):
         """Add a position to the portfolio.
@@ -147,23 +164,6 @@ class Portfolio(Accounts):
         else:
             return (False,
                     '{code} did not exist in the portfolio'.format(code=code))
-
-    @property
-    def holdings(self):
-        """Getter and setter for holdings property.
-
-        This function sets the values in holdings dict
-        to be the current holding quantities of codes in
-        portfolio. It also serves as a getter for the holdings
-        dict.
-
-        Returns:
-            (dict[int | float]): A dict of current holding quantities.
-        """
-        for code in self.positions.keys():
-            self._holdings[code] = self.positions[code]['qty']
-
-        return self._holdings
 
     # def get_holdings(self):
     #     holdings = {}
