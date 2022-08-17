@@ -83,7 +83,7 @@ app.layout = html.Div([
                     'size': 3,
                     'offset': 0
                 }),
-        dbc.Col(dcc.Dropdown(id='indicators',
+        dbc.Col(dcc.Dropdown(id='indicator_names',
                              options=[
                                  {
                                      'label': 'Candlestick',
@@ -94,9 +94,9 @@ app.layout = html.Div([
                                      'value': 'Volume'
                                  },
                              ] + [{
-                                 'label': indicator_name.upper(),
-                                 'value': indicator_name.upper()
-                             } for indicator_name in list(
+                                 'label': current_indicator.upper(),
+                                 'value': current_indicator.upper()
+                             } for current_indicator in list(
                                  indicator_client.current_indicators.keys())],
                              value='Candlestick',
                              placeholder='Indicator',
@@ -159,7 +159,18 @@ app.layout = html.Div([
 
 
 def generate_trading_activity_table():
+    """Generate trading activity table.
 
+    This function calls the Futu API order_list_query()
+    to get all the orders of today and then generate a
+    table of trading activity.
+
+    Returns:
+        (dash_table.DataTable): A dash datatable with columns
+            'order_id', 'code', 'stock_name', 'trd_side',
+            'order_type', 'qty', 'order_status', 'price',
+            'currency', 'create_time', 'updated_time'.
+    """
     today_order_info = futubot.check_today_orders()
 
     if today_order_info is None:
@@ -269,14 +280,44 @@ def generate_trading_activity_table():
     # input
     [Input('interval-component', 'n_intervals')])
 def update_trading_activity_table(n_interval):
+    """Update the trading activity table in real time.
 
+    This function updates the trading activity table by
+    calling generate_trading_activity_table() when the
+    interval-component fires a callback periodically.
+
+    Args:
+        n_interval (int): The number of times the interval
+            has passed. It is incremented by dcc.Interval with
+            id 'interval-component' at every interval seconds in
+            order to update the app in real time.
+
+    Returns:
+        (dash_table.DataTable): A dash datatable with id
+            'trading_activity_table'.
+    """
     return generate_trading_activity_table()
 
 
 @app.callback([Output('portfolio_chart', 'figure')],
               [Input('interval-component', 'n_intervals')])
 def update_portfolio_chart(n_interval):
+    """Update the portfolio pie chart in real time.
 
+    This function updates the portfolio distribution pie
+    chart by calling calculate_portfolio_weights() when the
+    interval-component fires a callback periodically.
+
+    Args:
+        n_interval (int): The number of times the interval
+            has passed. It is incremented by dcc.Interval with
+            id 'interval-component' at every interval seconds in
+            order to update the app in real time.
+
+    Returns:
+        (plotly.graph_objects.Pie): A Plotly pie chart of
+            portfolio distribution with id 'portfolio_chart'.
+    """
     weights = portfolio.calculate_portfolio_weights()
 
     portfolio_chart = go.Figure()
@@ -301,7 +342,25 @@ def update_portfolio_chart(n_interval):
 @app.callback([Output('portfolio_fig', 'figure')],
               [Input('interval-component', 'n_intervals')])
 def update_portfolio(n_intervals):
+    """Update the portfolio information figure in real time.
 
+    This function calls get_protfolio_info() when the
+    interval-component fires a callback periodically and updates
+    the Plotly Indicator figure of total assets. The percentage
+    difference between the total assets and total invested value
+    is also updated in real time.
+
+    Args:
+        n_interval (int): The number of times the interval
+            has passed. It is incremented by dcc.Interval with
+            id 'interval-component' at every interval seconds in
+            order to update the app in real time.
+
+    Returns:
+        (plotly.graph_objects.Indicator): A Plotly Indicator of
+            portfolio's total assets, with percentage reference
+            'total_invested_value'.
+    """
     portfolio_fig = go.Figure()
 
     portfolio_info = portfolio.get_portfolio_info()
@@ -348,10 +407,42 @@ def update_portfolio(n_intervals):
 @app.callback([Output('live_graph', 'figure')], [
     Input('interval-component', 'n_intervals'),
     State('code_names', 'value'),
-    State('indicators', 'value')
+    State('indicator_names', 'value')
 ])
-def run_futubot(n_intervals, code_name, indicator):
+def run_futubot(n_intervals, code_name, indicator_name):
+    """Implementation of FutuBot in real time.
 
+    This function implements the main logic of FutuBot in real time
+    by calculating buy and sell signals based on latest bar data and
+    then places orders accordingly. It also updates StockFrame graphs
+    in real time based on the input 'code_name' and 'indicators'.
+    The live_graph has the following options:
+        - Candlestick (default)
+        - Volume
+        - RSI
+        - SMA
+        - EMA
+        - MACD
+        - Bollinger Bands
+        - Standard Deviation
+        - Stochastic Oscillator
+
+    Args:
+        n_interval (int): The number of times the interval
+            has passed. It is incremented by dcc.Interval with
+            id 'interval-component' at every interval seconds in
+            order to update the app in real time.
+        code_name (str): The name of code for which the live graph
+            is plotted. Its value is controlled by the state of the
+            dcc.Dropdown table with id 'code_names'.
+        indicator (str): The name of indicator for which the live graph
+            is plotted. Its value is controlled by the state of the
+            dcc.Dropdown table with id 'indicators'.
+
+    Returns:
+        (plotly.graph_objects): A Plotly graph of StockFrame with id
+            'live_graph'.
+    """
     df = stockframe.frame.loc[code_name]
 
     fig = go.Figure()
@@ -391,17 +482,17 @@ def run_futubot(n_intervals, code_name, indicator):
         for _, row in df.iterrows()
     ]
 
-    if indicator == 'Volume':
+    if indicator_name == 'Volume':
         fig = go.Figure(data=go.Bar(x=df.index,
                                     y=df['volume'],
                                     marker_color=volume_colors,
                                     name='Volume'))
 
-    if indicator[:3] == 'RSI':
+    if indicator_name[:3] == 'RSI':
         fig = go.Figure(
             data=go.Scatter(x=df.index,
-                            y=df[indicator.lower()],
-                            name=indicator,
+                            y=df[indicator_name.lower()],
+                            name=indicator_name,
                             line=dict(color='rgb(255, 237, 111)', width=2)))
         fig.update_layout(yaxis_range=[0, 100])
         fig.add_hline(y=30.0,
@@ -417,23 +508,23 @@ def run_futubot(n_intervals, code_name, indicator):
                       line_color='#fb0d0d',
                       annotation_font_color='#fb0d0d')
 
-    if indicator[:3] == 'SMA':
+    if indicator_name[:3] == 'SMA':
         fig.add_trace(trace=go.Scatter(
             x=df.index,
-            y=df[indicator.lower()],
-            name=indicator,
+            y=df[indicator_name.lower()],
+            name=indicator_name,
             line=dict(color='orange', width=2),
         ), )
 
-    if indicator[:3] == 'EMA':
+    if indicator_name[:3] == 'EMA':
         fig.add_trace(trace=go.Scatter(
             x=df.index,
-            y=df[indicator.lower()],
-            name=indicator,
+            y=df[indicator_name.lower()],
+            name=indicator_name,
             line=dict(color='#2ed9ff', width=2),
         ), )
 
-    if indicator == 'MACD':
+    if indicator_name == 'MACD':
         fig = go.Figure()
         macd_colors = [
             '#16ff32' if val >= 0 else 'red'
@@ -458,7 +549,7 @@ def run_futubot(n_intervals, code_name, indicator):
                        line=dict(color='#2ed9ff', width=2),
                        name='Signal'))
 
-    if indicator == 'BOLLINGER_BANDS':
+    if indicator_name == 'BOLLINGER_BANDS':
         fig.add_trace(
             go.Scatter(x=df.index,
                        y=df['sma'],
@@ -482,14 +573,14 @@ def run_futubot(n_intervals, code_name, indicator):
                        name='Lower Band',
                        opacity=0.1))
 
-    if indicator == 'STANDARD_DEVIATION':
+    if indicator_name == 'STANDARD_DEVIATION':
         fig = go.Figure(
             go.Scatter(x=df.index,
                        y=df['standard_deviation'],
                        line=dict(color='rgb(102, 166, 30)', width=2),
                        name='Standard Deviation'))
 
-    if indicator == 'STOCHASTIC_OSCILLATOR':
+    if indicator_name == 'STOCHASTIC_OSCILLATOR':
         fig = go.Figure()
         fig.add_trace(
             go.Scatter(x=df.index,
