@@ -274,11 +274,8 @@ def generate_trading_activity_table():
     ]
 
 
-@app.callback(
-    # output
-    [Output('trading_activity_table', 'children')],
-    # input
-    [Input('interval-component', 'n_intervals')])
+@app.callback([Output('trading_activity_table', 'children')],
+              [Input('interval-component', 'n_intervals')])
 def update_trading_activity_table(n_interval):
     """Update the trading activity table in real time.
 
