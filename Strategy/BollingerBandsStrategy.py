@@ -57,7 +57,7 @@ class BollingerBandsStrategy:
 
         last_rows = self.stockframe.code_groups.tail(1)
 
-        print(last_rows)
+        print('lastest bars', last_rows)
 
         for code in code_list:
             if self.existing_orders[code] is False:
