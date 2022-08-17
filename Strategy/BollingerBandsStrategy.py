@@ -1,4 +1,27 @@
 class BollingerBandsStrategy:
+    """Implementation of the Bollinger Bands Strategy.
+
+    The Bollinger Bands strategy relies on mean reversion, which
+    assumes that the price eventually reverts back to the mean price
+    if it deviates substantially from the mean.
+
+    A buy signal is triggered when the price breaks below the lower
+    Bollinger Band, where the price is assumed to rebound.
+    Conversely, a sell signal is triggered when the price breaks above
+    the upper Bollinger Band, where the price is due for a pull-back.
+    A period of 20 is commonly used for Bollinger Bands calculations.
+
+    Args:
+        stockframe (StockFrame): The StockFrame object of
+            historical candlestick data.
+        portfolio (Portfolio): The Portfolio object.
+        indicator_client (Indicator): The Indicator object
+            of current indicators.
+        existing_orders (dict[bool]): A dict of existing orders.
+            True if there is a pending order, otherwise False.
+        period (int): The period for Bollinger Bands calculations.
+            Default: 20.
+    """
     def __init__(self,
                  stockframe,
                  portfolio,
@@ -14,7 +37,13 @@ class BollingerBandsStrategy:
         self.period = period
 
     def calculate_buy_sell_signals(self):
+        """Calculate buy and sell signals based on Bollinger Bands Strategy.
 
+        Returns:
+            buy_sell_signals (dict[dict]): A dict of buy and sell
+                signals with key 'buys' and 'sells'. Each key
+                contains a dict of codes with triggered signals
+        """
         holdings = self.portfolio.holdings
 
         buy_sell_signals = {'buys': {}, 'sells': {}}

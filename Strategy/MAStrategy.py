@@ -1,4 +1,26 @@
 class MAStrategy:
+    """Implementation of the Moving Average (MA) Strategy.
+
+    In MA strategy, a buy signal is triggered when the short-term
+    MA crosses above the long-term MA (Golden Cross), indicating an
+    uptrend (positive momentum). Conversely, a sell signal is triggered
+    when the short-term MA crosses below the long-term MA (Death Cross),
+    indicating a downtrend (negative momentum). A period of 20 and 50
+    are commonly used for short and long-term MA, respectively.
+
+    Args:
+        stockframe (StockFrame): The StockFrame object of
+            historical candlestick data.
+        portfolio (Portfolio): The Portfolio object.
+        indicator_client (Indicator): The Indicator object
+            of current indicators.
+        existing_orders (dict[bool]): A dict of existing orders.
+            True if there is a pending order, otherwise False.
+        short_period (int): The period of short-term MA. Default: 20.
+        long_period (int): The period of long-term MA. Default: 50.
+        is_ema (bool): Whether to use EMA for MA calculations.
+            Default: False.
+    """
     def __init__(self,
                  stockframe,
                  portfolio,
@@ -18,7 +40,13 @@ class MAStrategy:
         self.is_ema = is_ema
 
     def calculate_buy_sell_signals(self):
+        """Calculate buy and sell signals based on MA Strategy.
 
+        Returns:
+            buy_sell_signals (dict[dict]): A dict of buy and sell
+                signals with key 'buys' and 'sells'. Each key
+                contains a dict of codes with triggered signals
+        """
         holdings = self.portfolio.holdings
 
         buy_sell_signals = {'buys': {}, 'sells': {}}
