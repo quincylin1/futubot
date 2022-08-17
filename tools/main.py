@@ -59,7 +59,7 @@ def main():
     while Robot.is_regular_trading_time():
         print('')
 
-        print('before', portfolio.holdings)
+        print('holdings before', portfolio.holdings)
 
         latest_prices = futubot.get_latest_bar()
 
@@ -83,11 +83,12 @@ def main():
 
         portfolio.update_positions(order_infos=order_infos)
 
-        print('after', portfolio.holdings)
+        print('holdings after', portfolio.holdings)
 
         last_bar_timestamp = stockframe.frame.tail(1).index.get_level_values(1)
         futubot.wait_till_next_bar(last_bar_timestamp=last_bar_timestamp)
 
+    # Check portfolio metrics after end of trading day
     pprint.pprint(portfolio.calculate_portfolio_metrics())
     print('')
     pprint.pprint(portfolio.portfolio_info)

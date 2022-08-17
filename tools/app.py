@@ -356,6 +356,8 @@ def run_futubot(n_intervals, code_name, indicator):
 
     fig = go.Figure()
 
+    print('holdings before', portfolio.holdings)
+
     latest_prices = futubot.get_latest_bar()
     stockframe.add_rows(data=latest_prices)
     indicator_client.refresh()
@@ -375,7 +377,7 @@ def run_futubot(n_intervals, code_name, indicator):
 
     portfolio.update_positions(order_infos=order_infos)
 
-    print('after', portfolio.holdings)
+    print('holdings after', portfolio.holdings)
 
     fig.add_trace(trace=go.Candlestick(x=df.index,
                                        open=df['open'],
@@ -515,4 +517,4 @@ def run_futubot(n_intervals, code_name, indicator):
 
 
 if __name__ == '__main__':
-    app.run_server()
+    app.run_server(port=8054)

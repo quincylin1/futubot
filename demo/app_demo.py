@@ -354,6 +354,7 @@ def update_portfolio(n_intervals):
 ])
 def run_futubot(n_intervals, code_name, indicator, start_date=start_date):
 
+    # Artificial counter for advancing time
     global i
     # print(i)
 
@@ -364,6 +365,8 @@ def run_futubot(n_intervals, code_name, indicator, start_date=start_date):
     end_date = datetime.strptime(start_date, '%Y-%m-%d %H:%M:%S')
     end_date = end_date + i * timedelta(minutes=1)
     end_date = end_date.strftime('%Y-%m-%d %H:%M:%S')
+
+    print('holdings before', portfolio.holdings)
 
     latest_prices = futubot.get_latest_bar(start_date=start_date,
                                            end_date=end_date,
@@ -386,7 +389,7 @@ def run_futubot(n_intervals, code_name, indicator, start_date=start_date):
 
     portfolio.update_positions(order_infos=order_infos)
 
-    print('after', portfolio.holdings)
+    print('holdings after', portfolio.holdings)
 
     fig.add_trace(trace=go.Candlestick(x=df.index,
                                        open=df['open'],

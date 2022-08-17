@@ -63,8 +63,9 @@ def main():
     while True:
         print('')
 
-        print('before', portfolio.holdings)
+        print('holdings before', portfolio.holdings)
 
+        # Automatically update endtime
         end_date = datetime.strptime(end_date, '%Y-%m-%d %H:%M:%S')
         end_date = end_date + timedelta(minutes=1)
         end_date = end_date.strftime('%Y-%m-%d %H:%M:%S')
@@ -93,7 +94,7 @@ def main():
 
         portfolio.update_positions(order_infos=order_infos)
 
-        print('after', portfolio.holdings)
+        print('holdings after', portfolio.holdings)
 
         time.sleep(5)
 
