@@ -289,8 +289,9 @@ def update_trading_activity_table(n_interval):
     Args:
         n_interval (int): The number of times the interval
             has passed. It is incremented by dcc.Interval with
-            id 'interval-component' at every interval seconds in
-            order to update the app in real time.
+            id 'interval-component' at every interval milliseconds
+            in order to update the app in real time. For live mode,
+            the 'interval' is set to 10000 milliseconds.
 
     Returns:
         (dash_table.DataTable): A dash datatable with id
@@ -311,8 +312,9 @@ def update_portfolio_chart(n_interval):
     Args:
         n_interval (int): The number of times the interval
             has passed. It is incremented by dcc.Interval with
-            id 'interval-component' at every interval seconds in
-            order to update the app in real time.
+            id 'interval-component' at every interval milliseconds
+            in order to update the app in real time. For live mode,
+            the 'interval' is set to 10000 milliseconds.
 
     Returns:
         (plotly.graph_objects.Pie): A Plotly pie chart of
@@ -353,8 +355,9 @@ def update_portfolio(n_intervals):
     Args:
         n_interval (int): The number of times the interval
             has passed. It is incremented by dcc.Interval with
-            id 'interval-component' at every interval seconds in
-            order to update the app in real time.
+            id 'interval-component' at every interval milliseconds
+            in order to update the app in real time. For live mode,
+            the 'interval' is set to 10000 milliseconds.
 
     Returns:
         (plotly.graph_objects.Indicator): A Plotly Indicator of
@@ -430,8 +433,9 @@ def run_futubot(n_intervals, code_name, indicator_name):
     Args:
         n_interval (int): The number of times the interval
             has passed. It is incremented by dcc.Interval with
-            id 'interval-component' at every interval seconds in
-            order to update the app in real time.
+            id 'interval-component' at every 'interval' milliseconds
+            in order to update the app in real time. For live mode,
+            the 'interval' is set to 10000 milliseconds.
         code_name (str): The name of code for which the live graph
             is plotted. Its value is controlled by the state of the
             dcc.Dropdown table with id 'code_names'.
