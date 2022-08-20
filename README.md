@@ -4,6 +4,9 @@
 
 FUTU (Futu Holdings Limited, NASDAQ: FUTU) is one of the most popular online brokers in Hong Kong. Despite its popularity, there are only limited attempts to utilize its open-source APIs for automated trading. As such, this project (named **FutuBot**) aims to use Futu APIs to build an intraday trading robot. A dashboard is also provided to show important trading statistics in real time, which include candlestick and indicators graphs, account details, portfolio distribution and trading order activity. Below shows FutuBot in action:
 
+<video src="imgs/demo.mov" controls="controls" style="max-width: 730px;">
+</video>
+
 (Note: For privacy reason, this demo is running in paper trading mode.)
 
 ## About Futu OpenAPI
