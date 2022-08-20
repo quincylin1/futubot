@@ -11,7 +11,6 @@ from utils.config import Config
 def parse_args():
     parser = argparse.ArgumentParser(description='Run FutuBot')
     parser.add_argument('config', help='config file path')
-    parser.add_argument('--output-dir', help='the directory to save the logs')
     parser.add_argument('--display-all-cols',
                         action='store_true',
                         help='whether to display all columns of stockframe.')

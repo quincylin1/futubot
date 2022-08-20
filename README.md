@@ -58,8 +58,10 @@ To verify that FutuBot is successfully installed on your computer, you can run e
 As an example, the command below runs `app.py`:
 
 ```shell
-python demo/app_demo.py demo/configs/futubot_config_demo.py
+python demo/app_demo.py demo/configs/futubot_config_demo.py --display-all-cols
 ```
+
+where the optional argument `--display-all-cols` is also specified to show all the columns in `StockFrame`.
 
 ## Usage
 
@@ -76,6 +78,22 @@ To simplify the process of running FutuBot, a [config file](configs/futubot_conf
 - `historical_quote_dates`: The `start_date` and `end_date` over which the `StockFrame` is initialized.
 - `indicators`: The parameters of indicators.
 - `strategy`: The strategy and parameters used.
+
+Once the parameters are specified, you can then run the scripts in `tools/`. **Since Futu only allows trading during market hours (even for paper trading!), the scripts can only be run during market hours**.
+
+Depending on your preference, you can either run:
+
+```shell
+python tools/main.py configs/futubot_config.py --display-all-cols
+```
+
+to display results on terminal, or:
+
+```shell
+python tools/app.py configs/futubot_config.py --display-all-cols
+```
+
+which runs FutuBot with a real-time dashboard.
 
 ## Contributing
 
