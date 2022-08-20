@@ -10,7 +10,7 @@ def readme():
 if __name__ == '__main__':
     setup(
         name='futubot',
-        version='0.0.1',
+        version='1.0.0',
         description='Futubot - A trading robot utilizing Futu APIs',
         long_description=readme(),
         author='Quincy Lin',
