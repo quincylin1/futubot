@@ -12,15 +12,11 @@ All kinds of contribution are welcome! If you would like to contribute to this p
 ### Step 1: Fork and Pull the Repository
 
 - #### Step 1.1: Click the `Fork` button on the [project page](https://github.com/quincylin1/FutuBot) to fork the repository from GitHub.
-
 - #### Step 1.2: Clone the forked repository to your local computer:
-
   ```bash
    git clone https://github.com/<your name>/FutuBot.git
   ```
-
 - #### Step 1.3: Add the official repository as upstream:
-
   ```shell
    git remote add upstream https://github.com/quincylin1/FutuBot.git
   ```
@@ -56,7 +52,7 @@ All kinds of contribution are welcome! If you would like to contribute to this p
 
 - #### Step 3.1: Run pre-commit
 
-  Before commiting new changes, please run pre-commit to solve any potential hook issues. If pre-commit is not installed on your local computer, you can install it easily using the pip command:
+  Before committing new changes, please run pre-commit to solve any potential hook issues. If pre-commit is not installed on your local computer, you can install it easily using the pip command:
 
   ```bash
    pip install pre-commit
@@ -107,7 +103,7 @@ All kinds of contribution are welcome! If you would like to contribute to this p
   # Solve any conflict and run pre-commit and pytest again
   ```
 
-- #### Step 4.3: Push the <new_feature_branch> to upstream repository
+- #### Step 4.3: Push the \<new_feature_branch> to upstream repository
 
   ```
   git checkout <new_feature_branch>
