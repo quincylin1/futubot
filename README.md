@@ -77,7 +77,7 @@ To simplify the process of running FutuBot, a [config file](configs/futubot_conf
 
 ## Contributing
 
-This project is only at preliminary stage and there is definitely a lot of room for improvement! For example, more indicators can be added, other trading strategies (e.g. machine learning) can be implemented, and the real-time dashboard can be improved (I am no expert in frontend development...). If you would like to contribute to this project, please refer to [CONTRIBUTING.md](docs/CONTRIBUTING.md) for a complete guide to project contribution.
+This project is still at preliminary stage and there is definitely a lot of room for improvement! For example, more indicators can be added, other trading strategies (e.g. machine learning) can be implemented, and the real-time dashboard can be improved (I am no expert in frontend development...). If you would like to contribute to this project, please refer to [CONTRIBUTING.md](docs/CONTRIBUTING.md) for a complete guide to project contribution.
 
 ## Acknowledgement
 
