@@ -31,3 +31,14 @@ pip install -v -e .
 # "-e" means installing the project in editable mode,
 # so any local modifications on the project can be used without reinstalling it.
 ```
+
+## Verify Your Installation
+
+To verify FutuBot has been installed successfully, run the following:
+
+```bash
+python
+>>> import futubot
+>>> futubot.__version__
+# Expected output: '1.0.0'
+```

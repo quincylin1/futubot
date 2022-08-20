@@ -7,10 +7,20 @@ def readme():
     return long_description
 
 
+version_file = 'futubot/version.py'
+
+
+def get_version():
+    with open(version_file, 'r') as f:
+        exec(compile(f.read(), version_file, 'exec'))
+    return locals()['__version__']
+
+
 if __name__ == '__main__':
+    print('version no', get_version())
     setup(
         name='futubot',
-        version='1.0.0',
+        version=get_version(),
         description='Futubot - An intraday trading robot utilizing Futu APIs',
         long_description=readme(),
         author='Quincy Lin',
