@@ -87,13 +87,13 @@ Depending on your preference, you can either run:
 python tools/main.py configs/futubot_config.py --display-all-cols
 ```
 
-to display results on terminal, or:
+to display results on terminal, or
 
 ```shell
 python tools/app.py configs/futubot_config.py --display-all-cols
 ```
 
-which runs FutuBot with a real-time dashboard.
+which shows the results on a real-time dashboard.
 
 ## Contributing
 
