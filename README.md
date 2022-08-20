@@ -13,9 +13,9 @@ FutuBot primarily uses the APIs released by Futu for getting real-time market da
 - FutuOpenD: The gateway program of Futu API running on user's local computer or cloud server and is responsible for transferring the protocol requests to Futu Server, and returning the processed data.
 - Futu API: An API SDK encapsulated by Futu for getting quotations and executing trading actions.
 
-You can read more about the details of the Futu components and how they interact with each other on the [Futu API Doc website](https://openapi.futunn.com/futu-api-doc/en/intro/intro.html).
+You can read more about the details of FutuOpenD and Futu API and how they interact with each other on the [Futu API Doc website](https://openapi.futunn.com/futu-api-doc/en/intro/intro.html).
 
-**This project assumes you already have a Futu ID and trading account** (please refer to the Account section on [Futu API Doc website](https://openapi.futunn.com/futu-api-doc/en/intro/intro.html) for relevant details). In order to run the Futu API, you must also download FutuOpenD on your local computer. Futu provides two operation modes for FutuOpenD: visualization and command line. Please refer to the [Futu API Doc website](https://openapi.futunn.com/futu-api-doc/en/quick/opend-base.html) for installation details of each mode.
+**This project assumes you already have a Futu ID and trading account** (please refer to the _Account_ section on [Futu API Doc website](https://openapi.futunn.com/futu-api-doc/en/intro/intro.html) for relevant details). In order to run the Futu API, you must also download FutuOpenD on your local computer. Futu provides two operation modes for FutuOpenD: _visualization_ and _command line_. Please refer to the [Futu API Doc website](https://openapi.futunn.com/futu-api-doc/en/quick/opend-base.html) for installation details of each mode.
 
 ## Overview of the Project
 
@@ -31,19 +31,19 @@ FutuBot consists of five main modules:
 - `StockFrame`: This module organizes the candlestick data and indicators into a MultiIndex pandas dataframe.
 - `Portfolio`: This module contains important imformation of user's Futu account including the total assets, total market value and portfolio distribution. It also contains common evaluation metrics for backtesting such as total PnL value and Sharpe Ratio.
 
-In addition, there is also a `Strategy` folder which contains all the current supported trading strategies, each in a separate `.py` file. Organizing the strategy modules this way allows users to add their own customized strategy (e.g. machine learning) easily by creating a `.py` file for it. You can also learn more about how each strategy works [here](Strategy/README.md).
+In addition, there is also a `Strategy` folder which contains all the trading strategies that are currently supported, each in a separate `.py` file. Organizing the strategy modules this way allows users to add their own customized strategy (e.g. machine learning) easily by creating a `.py` file for it. You can also learn more about how each strategy works [here](Strategy/README.md).
 
 ### Trading Logic
 
-FutuBot currently supports both live and paper trading, as well as market and limit orders. However, Futu OpenAPI does not support market orders for paper trading, so orders submitted in paper trading mode may not be filled immediately. In order to prevent pending orders from accumulating, buy and sell signals are only executed when there are no pending orders for the given code. When a buy signal is present for a given code, it buys one lot of shares if there is no holding position for that particular code. Conversely, when a sell signal is present, it sells all the current holdings only if there are holdings for that code.
+FutuBot currently supports both live and paper trading, as well as market and limit orders. However, Futu OpenAPI does **not** support market orders for paper trading, so orders submitted in paper trading mode may not be filled immediately. In order to prevent pending orders from accumulating, buy and sell signals are only executed when there are no pending orders for the given code. When a buy signal is present for a given code, it buys one lot of shares if there is no holding position for that particular code. Conversely, when a sell signal is present, it sells all the current holdings only if there are holdings for that code.
 
 ### Limitations
 
-FutuBot comes with several limitations:
+FutuBot also comes with several limitations:
 
 - Quote Right: Since FutuBot relies on free Futu APIs, it only has quote right for LV2 securities market quotes from Hong Kong market (You can learn more about Futu quote right on the [official site](https://openapi.futunn.com/futu-api-doc/en/intro/authority.html)).
 - Interface Frequency: Each Futu API has its own [frequency limitation rules](https://openapi.futunn.com/futu-api-doc/en/intro/authority.html), and an error is raised if the API is called beyond the frequency limits. For instance, `get_market_snapshot()` only allows a maximum of 60 requests every 30 seconds.
-- Real-time Dashboard Update: The Hong Kong market has a one hour lunch break from 12:00:00 to 13:00:00 during which the market is temporarily closed. Unforeseen errors may come up when running the dashboard during this time, and users need to click `Ctrl-C` to stop and restart the robot again. It is therefore encouraged to run FutuBot during market hours only. In addition, to avoid producing too much overheads for the real-time dashboard, the update time of the dashboard is set as 10,000 milliseconds (which can be changed depending on user's local computer). This gives rise to a certain level of latency for live graph updates when interacting with the dashboard.
+- Real-time Dashboard Update: The Hong Kong market has a one hour lunch break from 12:00:00 to 13:00:00 during which the market is temporarily closed. Unforeseen errors may come up when running the dashboard during this time, and users need to click `Ctrl-C` to stop and restart the robot again. **It is therefore encouraged to run FutuBot during market hours only**. In addition, to avoid producing too much overhead on the real-time dashboard, the update time of the dashboard is set to 10,000 milliseconds (which can be changed depending on user's local computer). This gives rise to a certain level of latency for live graph updates when interacting with the dashboard.
 
 ## Installation
 
@@ -61,7 +61,7 @@ python demo/app_demo.py demo/configs/futubot_config_demo.py
 
 ## Usage
 
-To simplify the process of running FutuBot, a [config file](configs/futubot_config.py) is created to allow users to specify the necessary parameters for running the robot. These parameters are:
+To simplify the process of running FutuBot, a [config file](configs/futubot_config.py) is provided to allow users to specify the necessary parameters for running the robot. These parameters are:
 
 - `filter_trdmarket`: The transaction market. FutuBot currently supports Hong Kong market only as Futu only provides free quote right for Hong Kong securities (Please refer to Authorities and Limitations in [Futu API Doc](<>) for more details).
 - `host`: The API listening IP address. Default: 127.0.0.1 for local connections.
