@@ -1,0 +1,9 @@
+/* input box */
+.Select-control {
+  background-color: rgba(0, 0, 0, 0);
+}
+
+/* changes the text color of input box */
+.Select-value-label {
+  color: white !important;
+}

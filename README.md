@@ -53,9 +53,9 @@ Please refer to [INSTALL.md](docs/INSTALL.md) for a detailed description of inst
 
 ## Demo
 
-To verify that FutuBot is successfully installed on your computer, you can run either `demo/main_demo.py` or `demo/app_demo.py` on the terminal. `main_demo.py` simply runs FutuBot and displays results on the terminal, while `app_demo.py` runs FutuBot on the backend and displays results on a Dashboard on browser.
+To verify that FutuBot is successfully installed on your computer, you can run either `demo/main.py` or `demo/app.py` on the terminal. `main.py` simply runs FutuBot and displays results on the terminal, while `app.py` runs FutuBot on the backend and displays results on a Dashboard on browser.
 
-As an example, the command below runs `app_demo.py`:
+As an example, the command below runs `app.py`:
 
 ```shell
 python demo/app_demo.py demo/configs/futubot_config_demo.py
