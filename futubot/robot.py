@@ -274,7 +274,7 @@ class Robot(Accounts):
 
         This function gets the last candlestick data of
         all the stocks present in the portfolio as a pandas DataFrame.
-        For demo mode, start_date and end_date must be specified.
+        For demo mode, both start_date and end_date must be specified.
         For live mode, the end_time corresponds to the current datetime,
         and the start_time is behind the end_time by a lookback period,
         whose length depends on the type of candlestick specified by ktype.
