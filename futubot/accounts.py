@@ -9,7 +9,7 @@ class Accounts:
     """An Accounts class containing all the necessary Futu APIs for FutuBot.
 
     All the Futu APIs which are used by FutuBot classes are called in
-    Accounts class in order to abstract them away from all other classes.
+    Accounts class in order to abstract them from all other classes.
 
     Args:
         host (str): FutuOpenD listening address. Default: '127.0.0.1'.
@@ -147,7 +147,7 @@ class Accounts:
             print('Error in get_account_list: ', data)
 
     def get_account_info(self):
-        """Get FutuAccount information for a given trading account.
+        """Get Futu account information for a given trading account.
 
         This function uses Futu API accinfo_query() to query fund data
         such as net asset value, securities market value, cash, and purchasing
@@ -336,7 +336,7 @@ class Accounts:
             return False
 
     def place_order(self, price, qty, code, trd_side, order_type='limit'):
-        """Place an order.
+        """Place an order when a buy or sell signal is generated.
 
         This function uses Futu API place_order() to place an order for
         a specific price, quantity, code, trade side and order_type.
