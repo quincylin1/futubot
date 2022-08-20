@@ -4,7 +4,7 @@
 
 FUTU (Futu Holdings Limited, NASDAQ: FUTU) is one of the most popular online brokers in Hong Kong. Despite its popularity, there are only limited attempts to utilize its open-source APIs for automated trading. As such, this project (named **FutuBot**) aims to use Futu APIs to build an intraday trading robot. A dashboard is also provided to show important trading statistics in real time, which include candlestick and indicators graphs, account details, portfolio distribution and trading order activity. Below shows FutuBot in action:
 
-<video src="imgs/demo.mov" controls="controls" style="max-width: 730px;">
+<video src="imgs/demo.mp4" controls="controls" style="max-width: 730px;">
 </video>
 
 (Note: For privacy reason, this demo is running in paper trading mode.)
@@ -66,7 +66,7 @@ python demo/app_demo.py demo/configs/futubot_config_demo.py
 
 To simplify the process of running FutuBot, a [config file](configs/futubot_config.py) is provided to allow users to specify the necessary parameters for running the robot. These parameters are:
 
-- `filter_trdmarket`: The transaction market. FutuBot currently supports Hong Kong market only as Futu only provides free quote right for Hong Kong securities (Please refer to Authorities and Limitations in [Futu API Doc](<>) for more details).
+- `filter_trdmarket`: The transaction market. FutuBot currently supports Hong Kong market only as Futu only provides free quote right for Hong Kong securities (Please refer to Authorities and Limitations in [Futu API Doc]() for more details).
 - `host`: The API listening IP address. Default: 127.0.0.1 for local connections.
 - `port`: THe API listening port. Default: 11111.
 - `security_firm`: The security firm for intraday trading. Currently only FUTU HK (`FUTUSECURITIES`) is supported.
