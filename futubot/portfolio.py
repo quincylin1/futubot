@@ -8,7 +8,12 @@ from .stockframe import StockFrame
 
 
 class Portfolio(Accounts):
-    """Implementation of investor's portfolio.
+    """Implementation of user's portfolio.
+
+    The Portfolio class contains important imformation of user's Futu
+    account including the total assets, total market value and portfolio
+    distribution. It also contains common evaluation metrics for backtesting
+    such as total PnL value and Sharpe Ratio.
 
     Args:
         host (str): FutuOpenD listening address. Default: '127.0.0.1'.
