@@ -5,7 +5,7 @@
 - Windows | macOS | Linux
 - Python 3.8
 - Futu ID and Trading Account
-- FutuOpenD
+- FutuOpenD 6.1.2608
 
 ## Setting Up the Virtual Environment
 
