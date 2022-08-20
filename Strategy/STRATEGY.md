@@ -14,9 +14,10 @@ The RSI strategy relies on the Relative Strength Index (RSI), which measures the
 In RSI strategy, a market is oversold when the RSI is under 30, where a buy signal is generated if there is no current holding. On the other hand, a market is overbought when the RSI is above 70, where a sell signal is generated if there is current holding (Figure 1). A 80/20 RSI pair is also commonly used.
 
 <figure>
-
+<div align="center">
 <img src="../imgs/RSI.png" style="width:60%"/>
-<figcaption align = "center">Figure 1: RSI strategy. A buy signal is triggered when the RSI is below 30 (oversold level), and a sell signal is triggered when the RSI is above 70 (overbought level). (Image courtesy to Investopedia)</figcaption>
+</div>
+<p align = "center">Figure 1: RSI strategy. A buy signal is triggered when the RSI is below 30 (oversold level), and a sell signal is triggered when the RSI is above 70 (overbought level). (Image courtesy to Investopedia)</p>
 
 </figure>
 
