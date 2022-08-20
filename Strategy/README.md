@@ -1,6 +1,6 @@
 # Trading Strategies
 
-Here, we give a detailed description of the trading strategies supported by FutuBot for users who are not familiar with any of them. FutuBot currently supports the following strategies:
+Here we give a detailed description of the trading strategies supported by FutuBot for users who are not familiar with any of them. FutuBot currently supports the following strategies:
 
 - [RSI Strategy](#RSI-Strategy)
 - [Moving Average Strategy](#Moving-Average-Strategy)
@@ -29,7 +29,7 @@ A Moving Average (MA), whether it is a Simple Moving Average (SMA) or an Exponen
 <div align="center">
   <img src="../imgs/MA.png" style="width:70%"/>
 </div>
-<p align = "center">Figure 2: MA Crossover strategy. The pale blue line is the short-term MA, and the dark blue line is the long-term MA. A sell signal is triggered when the short term MA crosses below the long-term MA (first crossover), and a buy signal is triggered when the short-term MA crosses above the long-term MA (second crossover). Image courtesy to Investopedia)</p>
+<p align = "center">Figure 2: MA Crossover strategy. The pale blue line is the short-term MA, and the dark blue line is the long-term MA. A sell signal is triggered when the short term MA crosses below the long-term MA (first crossover), and a buy signal is triggered when the short-term MA crosses above the long-term MA (second crossover). (Image courtesy to Investopedia)</p>
 </figure>
 
 ## MACD Crossover Strategy
@@ -40,7 +40,7 @@ MACD stands for Moving Average Convergence Divergence. It is calculated by takin
 <div align="center">
   <img src="../imgs/MACD.png" style="width:70%"/>
   </div>
-  <p align = "center">Figure 3: MACD Crossover strategy. The orange line is the MACD line and the blue line is the signal line. A sell signal is triggered when the MACD line crosses below the signal line (first crossover), and a buy signal is triggered when the MACD line crosses above the signal line (second crossover). (Image courtesy to Investopedia)</p>
+  <p align = "center">Figure 3: MACD Crossover strategy. The orange line is the MACD line and the blue line is the signal line. A sell signal is triggered when the MACD line crosses below the signal line (first crossover), and a buy signal is triggered when the MACD line crosses above the signal line (second crossover). A histogram of the difference between the MACD and signal line is also plotted. (Image courtesy to Investopedia)</p>
 </figure>
 
 ## Bollinger Bands Strategy
