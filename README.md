@@ -31,7 +31,7 @@ FutuBot consists of five main modules:
 - `StockFrame`: This module organizes the candlestick data and indicators into a MultiIndex pandas dataframe.
 - `Portfolio`: This module contains important imformation of user's Futu account including the total assets, total market value and portfolio distribution. It also contains common evaluation metrics for backtesting such as total PnL value and Sharpe Ratio.
 
-In addition, there is also a `Strategy` folder which contains all the current supported trading strategies, each in a separate `.py` file. Organizing the strategy modules this way allows users to add their own customized strategy (e.g. machine learning) easily by creating a `.py` file for it. You can also learn more about how each strategy works in [STRATEGY.md](Strategy/STRATEGY.md).
+In addition, there is also a `Strategy` folder which contains all the current supported trading strategies, each in a separate `.py` file. Organizing the strategy modules this way allows users to add their own customized strategy (e.g. machine learning) easily by creating a `.py` file for it. You can also learn more about how each strategy works [here](Strategy/README.md).
 
 ### Trading Logic
 
