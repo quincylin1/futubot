@@ -28,7 +28,7 @@ A Moving Average (MA), whether it is a Simple Moving Average (SMA) or an Exponen
 <div align="center">
   <img src="../imgs/MA.png"/>
 </div>
-<figcaption align = "center">Figure 2: MA Crossover strategy. The pale blue line is the short-term MA, and the dark blue line is the long-term MA. A sell signal is triggered when the short term MA crosses below the long-term MA (first crossover), and a buy signal is triggered when the short-term MA crosses above the long-term MA (second crossover). Image courtesy to Investopedia)</figcaption>
+<p align = "center">Figure 2: MA Crossover strategy. The pale blue line is the short-term MA, and the dark blue line is the long-term MA. A sell signal is triggered when the short term MA crosses below the long-term MA (first crossover), and a buy signal is triggered when the short-term MA crosses above the long-term MA (second crossover). Image courtesy to Investopedia)</p>
 </figure>
 
 ## MACD Crossover Strategy
