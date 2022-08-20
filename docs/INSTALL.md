@@ -23,8 +23,8 @@ conda activate futubot
 Install FutuBot from source in order to run it on your virtual environment:
 
 ```shell
-git clone https://github.com/quincylin1/FutuBot.git
-cd FutuBot
+git clone https://github.com/quincylin1/futubot.git
+cd futubot
 pip install -r requirements.txt
 pip install -v -e .
 # "-v" for verbose option.

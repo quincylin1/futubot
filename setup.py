@@ -11,7 +11,7 @@ if __name__ == '__main__':
     setup(
         name='futubot',
         version='1.0.0',
-        description='Futubot - A trading robot utilizing Futu APIs',
+        description='Futubot - An intraday trading robot utilizing Futu APIs',
         long_description=readme(),
         author='Quincy Lin',
         author_email='quincylin.333@gmail.com',

@@ -11,14 +11,14 @@ All kinds of contribution are welcome! If you would like to contribute to this p
 
 ### Step 1: Fork and Pull the Repository
 
-- #### Step 1.1: Click the `Fork` button on the [project page](https://github.com/quincylin1/FutuBot) to fork the repository from GitHub.
+- #### Step 1.1: Click the `Fork` button on the [project page](https://github.com/quincylin1/futubot) to fork the repository from GitHub.
 - #### Step 1.2: Clone the forked repository to your local computer:
   ```bash
-   git clone https://github.com/<your name>/FutuBot.git
+   git clone https://github.com/<your name>/futubot.git
   ```
 - #### Step 1.3: Add the official repository as upstream:
   ```shell
-   git remote add upstream https://github.com/quincylin1/FutuBot.git
+   git remote add upstream https://github.com/quincylin1/futubot.git
   ```
 
 ### Step 2: Add New Features to a New Branch
@@ -41,7 +41,7 @@ All kinds of contribution are welcome! If you would like to contribute to this p
 
 - #### Step 2.2: Create a feature branch
 
-  Before adding new features, you first need to create an issue on the official repository [github](https://github.com/quincylin1/FutuBot). You can then create a feature branch as follows:
+  Before adding new features, you first need to create an issue on the official repository [github](https://github.com/quincylin1/futubot). You can then create a feature branch as follows:
 
   ```bash
    git checkout -b feature/issue_<index> main
