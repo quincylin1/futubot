@@ -14,10 +14,10 @@ The RSI strategy relies on the Relative Strength Index (RSI), which measures the
 In RSI strategy, a market is oversold when the RSI is under 30, where a buy signal is generated if there is no current holding. On the other hand, a market is overbought when the RSI is above 70, where a sell signal is generated if there is current holding (Figure 1). A 80/20 RSI pair is also commonly used.
 
 <figure>
-<div align="center">
-  <img src="../imgs/RSI.png"/>
-  <figcaption align = "center">Figure 1: RSI strategy. A buy signal is triggered when the RSI is below 30 (oversold level), and a sell signal is triggered when the RSI is above 70 (overbought level). (Image courtesy to Investopedia)</figcaption>
-</div>
+
+<img src="../imgs/RSI.png"/>
+<figcaption align = "center">Figure 1: RSI strategy. A buy signal is triggered when the RSI is below 30 (oversold level), and a sell signal is triggered when the RSI is above 70 (overbought level). (Image courtesy to Investopedia)</figcaption>
+
 </figure>
 
 ## Moving Average Strategy
@@ -51,6 +51,7 @@ One Bollinger Bands strategy relies on mean reversion, which assumes that if the
 <figure>
 <div align="center">
   <img src="../imgs/BollingerBands.png"/>
+
   <figcaption align = "center">Figure 4: Bollinger Bands strategy. The Bollinger Bands region is filled with pale blue. A sell signal is triggered when the close price breaks above the upper line, and a buy signal is triggered when the close price breaks below the lower line. (Image courtesy to Investopedia)</figcaption>
 </div>
 </figure>
