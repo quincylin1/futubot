@@ -41,7 +41,7 @@ All kinds of contribution are welcome! If you would like to contribute to this p
 
 - #### Step 2.2: Create a feature branch
 
-  Before adding new features, you first need to create an issue on the official repository [github](https://github.com/quincylin1/futubot). You can then create a feature branch as follows:
+  Before creating a new branch, you first need to create an issue on the official repository [github](https://github.com/quincylin1/futubot). You can then create a feature branch as follows:
 
   ```bash
    git checkout -b feature/issue_<index> main
@@ -52,7 +52,7 @@ All kinds of contribution are welcome! If you would like to contribute to this p
 
 - #### Step 3.1: Run pre-commit
 
-  Before committing new changes, please run pre-commit to solve any potential hook issues. If pre-commit is not installed on your local computer, you can install it easily using the pip command:
+  Before committing new changes, please run pre-commit to solve any potential hook issues. If pre-commit is not installed on your local computer, you can install it easily with the pip command:
 
   ```bash
    pip install pre-commit
