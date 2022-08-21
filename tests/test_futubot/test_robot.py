@@ -1,11 +1,8 @@
-from sqlite3 import Timestamp
-import pandas as pd
 import pytest
-from futu import (RET_OK, Market, ModifyOrderOp, OrderType, SecurityFirm,
-                  SecurityType, TrdMarket, TrdSide)
+from futu import RET_OK, ModifyOrderOp, SecurityFirm, TrdMarket
 
-from futubot.robot import Robot
 from futubot.portfolio import Portfolio
+from futubot.robot import Robot
 from futubot.stockframe import StockFrame
 
 
@@ -19,12 +16,12 @@ def test_create_portfolio():
     )
 
     portfolio = futubot.create_portfolio(
-        stocks_of_interest=['HK.00001', 'HK.00700']
-    )
+        stocks_of_interest=['HK.00001', 'HK.00700'])
 
     assert isinstance(portfolio, Portfolio)
     futubot.close_quote_context()
     futubot.close_trade_context()
+
 
 def test_create_stockframe():
     futubot = Robot(
@@ -38,13 +35,13 @@ def test_create_stockframe():
     historical_quotes = futubot.get_historical_quotes(
         start_date='2022-08-08 09:30:00',
         end_date='2022-08-08 10:30:00',
-        code_list=['HK.00700']
-    )
+        code_list=['HK.00700'])
     stockframe = futubot.create_stockframe(data=historical_quotes)
 
     assert isinstance(stockframe, StockFrame)
     futubot.close_quote_context()
     futubot.close_trade_context()
+
 
 def test_get_historical_quotes():
     futubot = Robot(
@@ -58,8 +55,7 @@ def test_get_historical_quotes():
     historical_quotes = futubot.get_historical_quotes(
         start_date='2022-08-08 09:30:00',
         end_date='2022-08-08 10:30:00',
-        code_list=['HK.00700']
-    )
+        code_list=['HK.00700'])
 
     assert isinstance(historical_quotes, list)
 
@@ -68,6 +64,7 @@ def test_get_historical_quotes():
 
     futubot.close_quote_context()
     futubot.close_trade_context()
+
 
 def test_get_latest_bar():
     futubot = Robot(
@@ -79,17 +76,12 @@ def test_get_latest_bar():
     )
 
     with pytest.raises(TypeError):
-        futubot.get_latest_bar(
-            code_list=['Hk.00700'],
-            demo='True'
-        )
+        futubot.get_latest_bar(code_list=['Hk.00700'], demo='True')
 
-    latest_prices = futubot.get_latest_bar(
-        start_date='2022-08-08 09:30:00',
-        end_date='2022-08-08 10:30:00',
-        code_list=['HK.00700'],
-        demo=True
-    )
+    latest_prices = futubot.get_latest_bar(start_date='2022-08-08 09:30:00',
+                                           end_date='2022-08-08 10:30:00',
+                                           code_list=['HK.00700'],
+                                           demo=True)
 
     assert isinstance(latest_prices, list)
 
@@ -98,6 +90,7 @@ def test_get_latest_bar():
 
     futubot.close_quote_context()
     futubot.close_trade_context()
+
 
 def test_execute_signals():
     futubot = Robot(
@@ -109,28 +102,24 @@ def test_execute_signals():
     )
 
     with pytest.raises(TypeError):
-        futubot.execute_signals(
-            buy_sell_signals=['buys', 'sells']
-        )
+        futubot.execute_signals(buy_sell_signals=['buys', 'sells'])
 
-    portfolio = futubot.create_portfolio(
-        stocks_of_interest=['HK.00002']
-    )
+    futubot.create_portfolio(stocks_of_interest=['HK.00002'])
 
     order_infos = futubot.execute_signals(
         buy_sell_signals={
-            'buys': {'HK.00002': {
-                'close': 52.45,
-                'high': 52.45,
-                'low': 52.4,
-                'open': 52.45,
-                'rsi_14': 20.091,
-                'volume': 7000.0
-            }
+            'buys': {
+                'HK.00002': {
+                    'close': 52.45,
+                    'high': 52.45,
+                    'low': 52.4,
+                    'open': 52.45,
+                    'rsi_14': 20.091,
+                    'volume': 7000.0
+                }
             },
             'sells': {},
-        }
-    )
+        })
 
     assert isinstance(order_infos, dict)
 
@@ -153,5 +142,3 @@ def test_execute_signals():
 
     futubot.close_quote_context()
     futubot.close_trade_context()
-
-
