@@ -1,9 +1,7 @@
-import pytest 
-from futu import RET_OK, ModifyOrderOp, SecurityFirm, TrdMarket
+from futu import SecurityFirm, TrdMarket
 
 from futubot.indicators import Indicators
 from futubot.robot import Robot
-from futubot.stockframe import StockFrame
 
 
 def test_change_in_price():
@@ -15,10 +13,9 @@ def test_change_in_price():
         paper_trading=True,
     )
     historical_quotes = futubot.get_historical_quotes(
-        start_date="2022-08-08 09:30:00",
-        end_date="2022-08-08 12:00:00",
-        code_list=['HK.00700']
-    )
+        start_date='2022-08-08 09:30:00',
+        end_date='2022-08-08 12:00:00',
+        code_list=['HK.00700'])
 
     stockframe = futubot.create_stockframe(data=historical_quotes)
     indicator_client = Indicators(stockframe=stockframe)
@@ -29,6 +26,7 @@ def test_change_in_price():
     futubot.close_quote_context()
     futubot.close_trade_context()
 
+
 def test_rsi():
     futubot = Robot(
         host='127.0.0.1',
@@ -38,10 +36,9 @@ def test_rsi():
         paper_trading=True,
     )
     historical_quotes = futubot.get_historical_quotes(
-        start_date="2022-08-08 09:30:00",
-        end_date="2022-08-08 12:00:00",
-        code_list=['HK.00700']
-    )
+        start_date='2022-08-08 09:30:00',
+        end_date='2022-08-08 12:00:00',
+        code_list=['HK.00700'])
 
     stockframe = futubot.create_stockframe(data=historical_quotes)
     indicator_client = Indicators(stockframe=stockframe)
@@ -53,6 +50,7 @@ def test_rsi():
     futubot.close_quote_context()
     futubot.close_trade_context()
 
+
 def test_sma():
     futubot = Robot(
         host='127.0.0.1',
@@ -62,10 +60,9 @@ def test_sma():
         paper_trading=True,
     )
     historical_quotes = futubot.get_historical_quotes(
-        start_date="2022-08-08 09:30:00",
-        end_date="2022-08-08 12:00:00",
-        code_list=['HK.00700']
-    )
+        start_date='2022-08-08 09:30:00',
+        end_date='2022-08-08 12:00:00',
+        code_list=['HK.00700'])
 
     stockframe = futubot.create_stockframe(data=historical_quotes)
     indicator_client = Indicators(stockframe=stockframe)
@@ -77,6 +74,7 @@ def test_sma():
     futubot.close_quote_context()
     futubot.close_trade_context()
 
+
 def test_ema():
     futubot = Robot(
         host='127.0.0.1',
@@ -86,10 +84,9 @@ def test_ema():
         paper_trading=True,
     )
     historical_quotes = futubot.get_historical_quotes(
-        start_date="2022-08-08 09:30:00",
-        end_date="2022-08-08 12:00:00",
-        code_list=['HK.00700']
-    )
+        start_date='2022-08-08 09:30:00',
+        end_date='2022-08-08 12:00:00',
+        code_list=['HK.00700'])
 
     stockframe = futubot.create_stockframe(data=historical_quotes)
     indicator_client = Indicators(stockframe=stockframe)
@@ -101,6 +98,7 @@ def test_ema():
     futubot.close_quote_context()
     futubot.close_trade_context()
 
+
 def test_macd():
     futubot = Robot(
         host='127.0.0.1',
@@ -110,10 +108,9 @@ def test_macd():
         paper_trading=True,
     )
     historical_quotes = futubot.get_historical_quotes(
-        start_date="2022-08-08 09:30:00",
-        end_date="2022-08-08 12:00:00",
-        code_list=['HK.00700']
-    )
+        start_date='2022-08-08 09:30:00',
+        end_date='2022-08-08 12:00:00',
+        code_list=['HK.00700'])
 
     stockframe = futubot.create_stockframe(data=historical_quotes)
     indicator_client = Indicators(stockframe=stockframe)
@@ -121,17 +118,16 @@ def test_macd():
     fast_length = 12
     slow_length = 26
     signal_length = 9
-    indicator_client.macd(
-        fast_length=fast_length,
-        slow_length=slow_length,
-        signal_length=signal_length
-    )
+    indicator_client.macd(fast_length=fast_length,
+                          slow_length=slow_length,
+                          signal_length=signal_length)
     assert 'macd' in stockframe.frame.columns
     assert 'signal' in stockframe.frame.columns
     assert 'histogram' in stockframe.frame.columns
 
     futubot.close_quote_context()
     futubot.close_trade_context()
+
 
 def test_bollinger_bands():
     futubot = Robot(
@@ -142,10 +138,9 @@ def test_bollinger_bands():
         paper_trading=True,
     )
     historical_quotes = futubot.get_historical_quotes(
-        start_date="2022-08-08 09:30:00",
-        end_date="2022-08-08 12:00:00",
-        code_list=['HK.00700']
-    )
+        start_date='2022-08-08 09:30:00',
+        end_date='2022-08-08 12:00:00',
+        code_list=['HK.00700'])
 
     stockframe = futubot.create_stockframe(data=historical_quotes)
     indicator_client = Indicators(stockframe=stockframe)
@@ -159,6 +154,7 @@ def test_bollinger_bands():
     futubot.close_quote_context()
     futubot.close_trade_context()
 
+
 def test_stochastic_oscillator():
     futubot = Robot(
         host='127.0.0.1',
@@ -168,25 +164,23 @@ def test_stochastic_oscillator():
         paper_trading=True,
     )
     historical_quotes = futubot.get_historical_quotes(
-        start_date="2022-08-08 09:30:00",
-        end_date="2022-08-08 12:00:00",
-        code_list=['HK.00700']
-    )
+        start_date='2022-08-08 09:30:00',
+        end_date='2022-08-08 12:00:00',
+        code_list=['HK.00700'])
 
     stockframe = futubot.create_stockframe(data=historical_quotes)
     indicator_client = Indicators(stockframe=stockframe)
 
     K_period = 14
     D_period = 3
-    indicator_client.stochastic_oscillator(
-        K_period=K_period,
-        D_period=D_period
-    )
+    indicator_client.stochastic_oscillator(K_period=K_period,
+                                           D_period=D_period)
     assert '%K' in stockframe.frame.columns
     assert '%D' in stockframe.frame.columns
 
     futubot.close_quote_context()
     futubot.close_trade_context()
+
 
 def test_standard_deviation():
     futubot = Robot(
@@ -197,10 +191,9 @@ def test_standard_deviation():
         paper_trading=True,
     )
     historical_quotes = futubot.get_historical_quotes(
-        start_date="2022-08-08 09:30:00",
-        end_date="2022-08-08 12:00:00",
-        code_list=['HK.00700']
-    )
+        start_date='2022-08-08 09:30:00',
+        end_date='2022-08-08 12:00:00',
+        code_list=['HK.00700'])
 
     stockframe = futubot.create_stockframe(data=historical_quotes)
     indicator_client = Indicators(stockframe=stockframe)
