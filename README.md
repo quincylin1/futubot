@@ -97,7 +97,7 @@ which shows the results on a real-time dashboard.
 
 ## Contributing
 
-This project is still at preliminary stage and there is definitely a lot of room for improvement! For example, more indicators can be added, other trading strategies (e.g. machine learning) can be implemented, and the real-time dashboard can be improved (I am no expert in frontend development...). If you would like to contribute to this project, please refer to [CONTRIBUTING.md](docs/CONTRIBUTING.md) for a complete guide to project contribution.
+This project is still at a preliminary stage and there is definitely a lot of room for improvement! For example, more indicators can be added, other trading strategies (e.g. machine learning) can be implemented, and the real-time dashboard can be improved (I am no expert in frontend development...). If you would like to contribute to this project, please refer to [CONTRIBUTING.md](docs/CONTRIBUTING.md) for a complete guide to project contribution.
 
 ## Acknowledgement
 

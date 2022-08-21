@@ -80,12 +80,20 @@ All kinds of contribution are welcome! If you would like to contribute to this p
 
 - #### Step 4.1: Run pre-commit and pytest
 
+  If [pytest](https://docs.pytest.org/en/7.1.x/) is not installed on your local computer, you can install it with pip:
+
+  ```bash
+  pip install pytest
+  ```
+
   First run pre-commit and pytest and solve all the failures:
 
   ```bash
   pre-commit run --all-files
   pytest tests
   ```
+
+  (Please click Ctrl-C to exit after pytest has been run.)
 
 - #### Step 4.2: Ensure the forked repo is up-to-date again
 
