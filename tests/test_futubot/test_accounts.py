@@ -95,8 +95,8 @@ def test_get_historical_candles():
         start='2022-08-08 09:30:00',
         end='2022-08-08 10:30:00',
     )
-
     assert isinstance(historical_quotes, pd.DataFrame)
+
     accounts.close_quote_context()
     accounts.close_trade_context()
 
@@ -113,7 +113,6 @@ def test_get_positions():
 
     code = 'HK.00700'
     positions_dict = accounts.get_positions(code=code)
-
     assert isinstance(positions_dict, dict)
 
     for key in [

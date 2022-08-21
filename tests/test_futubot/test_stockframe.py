@@ -19,7 +19,6 @@ def test_create_frame():
         code_list=['HK.00700'])
 
     stockframe = futubot.create_stockframe(data=historical_quotes)
-
     assert isinstance(stockframe.frame, pd.DataFrame)
 
     futubot.close_quote_context()

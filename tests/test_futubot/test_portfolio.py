@@ -15,7 +15,6 @@ def test_get_portfolio_info():
     portfolio = futubot.create_portfolio(stocks_of_interest=['HK.00700'])
 
     portfolio_info = portfolio.get_portfolio_info()
-
     assert isinstance(portfolio_info, dict)
 
     for key in [

@@ -17,8 +17,8 @@ def test_create_portfolio():
 
     portfolio = futubot.create_portfolio(
         stocks_of_interest=['HK.00001', 'HK.00700'])
-
     assert isinstance(portfolio, Portfolio)
+
     futubot.close_quote_context()
     futubot.close_trade_context()
 
@@ -36,9 +36,10 @@ def test_create_stockframe():
         start_date='2022-08-08 09:30:00',
         end_date='2022-08-08 10:30:00',
         code_list=['HK.00700'])
-    stockframe = futubot.create_stockframe(data=historical_quotes)
 
+    stockframe = futubot.create_stockframe(data=historical_quotes)
     assert isinstance(stockframe, StockFrame)
+
     futubot.close_quote_context()
     futubot.close_trade_context()
 
@@ -56,7 +57,6 @@ def test_get_historical_quotes():
         start_date='2022-08-08 09:30:00',
         end_date='2022-08-08 10:30:00',
         code_list=['HK.00700'])
-
     assert isinstance(historical_quotes, list)
 
     for key in ['time_key', 'code', 'open', 'close', 'high', 'low', 'volume']:
@@ -82,7 +82,6 @@ def test_get_latest_bar():
                                            end_date='2022-08-08 10:30:00',
                                            code_list=['HK.00700'],
                                            demo=True)
-
     assert isinstance(latest_prices, list)
 
     for key in ['time_key', 'code', 'open', 'close', 'high', 'low', 'volume']:
@@ -120,7 +119,6 @@ def test_execute_signals():
             },
             'sells': {},
         })
-
     assert isinstance(order_infos, dict)
 
     for key in [
