@@ -17,7 +17,7 @@ In RSI strategy, a market is oversold when the RSI is under 30, where a buy sign
 <div align="center">
 <img src="../imgs/RSI.png" style="width:70%"/>
 </div>
-<p align = "center">Figure 1: RSI strategy. A buy signal is triggered when the RSI is below 30 (oversold level), and a sell signal is triggered when the RSI is above 70 (overbought level). (Image courtesy to Investopedia)</p>
+<p align = "center">Figure 1: RSI strategy. A buy signal is triggered when the RSI is below 30 (oversold level), and a sell signal is triggered when the RSI is above 70 (overbought level). (Image courtesy of Investopedia)</p>
 
 </figure>
 
@@ -29,7 +29,7 @@ A Moving Average (MA), whether it is a Simple Moving Average (SMA) or an Exponen
 <div align="center">
   <img src="../imgs/MA.png" style="width:70%"/>
 </div>
-<p align = "center">Figure 2: MA Crossover strategy. The pale blue line is the short-term MA, and the dark blue line is the long-term MA. A sell signal is triggered when the short term MA crosses below the long-term MA (first crossover), and a buy signal is triggered when the short-term MA crosses above the long-term MA (second crossover). (Image courtesy to Investopedia)</p>
+<p align = "center">Figure 2: MA Crossover strategy. The pale blue line is the short-term MA, and the dark blue line is the long-term MA. A sell signal is triggered when the short term MA crosses below the long-term MA (first crossover), and a buy signal is triggered when the short-term MA crosses above the long-term MA (second crossover). (Image courtesy of Investopedia)</p>
 </figure>
 
 ## MACD Crossover Strategy
@@ -40,7 +40,7 @@ MACD stands for Moving Average Convergence Divergence. It is calculated by takin
 <div align="center">
   <img src="../imgs/MACD.png" style="width:70%"/>
   </div>
-  <p align = "center">Figure 3: MACD Crossover strategy. The orange line is the MACD line and the blue line is the signal line. A sell signal is triggered when the MACD line crosses below the signal line (first crossover), and a buy signal is triggered when the MACD line crosses above the signal line (second crossover). A histogram of the difference between the MACD and signal line is also plotted. (Image courtesy to Investopedia)</p>
+  <p align = "center">Figure 3: MACD Crossover strategy. The orange line is the MACD line and the blue line is the signal line. A sell signal is triggered when the MACD line crosses below the signal line (first crossover), and a buy signal is triggered when the MACD line crosses above the signal line (second crossover). A histogram of the difference between the MACD and signal line is also plotted. (Image courtesy of Investopedia)</p>
 </figure>
 
 ## Bollinger Bands Strategy
@@ -53,7 +53,7 @@ One Bollinger Bands strategy relies on mean reversion, which assumes that if the
 <div align="center" style="width:70%">
   <img src="../imgs/BollingerBands.png"/>
   </div>
-  <p align = "center">Figure 4: Bollinger Bands strategy. The Bollinger Bands region is filled with pale blue. A sell signal is triggered when the close price breaks above the upper line, and a buy signal is triggered when the close price breaks below the lower line. (Image courtesy to Investopedia)</p>
+  <p align = "center">Figure 4: Bollinger Bands strategy. The Bollinger Bands region is filled with pale blue. A sell signal is triggered when the close price breaks above the upper line, and a buy signal is triggered when the close price breaks below the lower line. (Image courtesy of Investopedia)</p>
 </figure>
 
 #### References
