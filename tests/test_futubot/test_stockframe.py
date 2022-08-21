@@ -1,9 +1,7 @@
 import pandas as pd
-
-from futubot.robot import Robot
-
 from futu import SecurityFirm, TrdMarket
 
+from futubot.robot import Robot
 
 
 def test_create_frame():
@@ -27,6 +25,7 @@ def test_create_frame():
     futubot.close_quote_context()
     futubot.close_trade_context()
 
+
 def test_add_rows():
     futubot = Robot(
         host='127.0.0.1',
@@ -44,8 +43,16 @@ def test_add_rows():
     stockframe = futubot.create_stockframe(data=historical_quotes)
     length_before = len(stockframe.frame)
 
-    data = [{'time_key': '2022-08-08 10:31:00', 'code': 'HK.00700', 'open': 312.4, 'close': 313.6, 'high': 314.4, 'low': 312.2, 'volume': 450500}]
-    
+    data = [{
+        'time_key': '2022-08-08 10:31:00',
+        'code': 'HK.00700',
+        'open': 312.4,
+        'close': 313.6,
+        'high': 314.4,
+        'low': 312.2,
+        'volume': 450500
+    }]
+
     stockframe.add_rows(data=data)
     length_after = len(stockframe.frame)
 
@@ -53,6 +60,3 @@ def test_add_rows():
 
     futubot.close_quote_context()
     futubot.close_trade_context()
-
-
-
