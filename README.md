@@ -75,7 +75,7 @@ To simplify the process of running FutuBot, a [config file](configs/futubot_conf
 - `password`: The password of Futu trading account for placing orders (only necessary for live trading).
 - `order_type`: The type of order, which can be either `market` or `limit` (Note: Futu does not support market orders for paper trading).
 - `stocks_of_interest`: The stocks we are interested in trading.
-- `historical_quote_dates`: The `start_date` and `end_date` over which the `StockFrame` is initialized.
+- `historical_quote_dates`: The `start_date` and `end_date` over which the `StockFrame` is initialized. Format: `yyyy-MM-dd HH:mm:ss`.
 - `indicators`: The parameters of indicators.
 - `strategy`: The strategy and parameters used.
 
