@@ -1,8 +1,5 @@
-import pytest 
+from futu import SecurityFirm, TrdMarket
 
-from futu import RET_OK, ModifyOrderOp, SecurityFirm, TrdMarket
-
-from futubot.portfolio import Portfolio
 from futubot.robot import Robot
 
 
@@ -15,19 +12,21 @@ def test_get_portfolio_info():
         paper_trading=True,
     )
 
-    portfolio = futubot.create_portfolio(
-        stocks_of_interest=['HK.00700']
-    )
+    portfolio = futubot.create_portfolio(stocks_of_interest=['HK.00700'])
 
     portfolio_info = portfolio.get_portfolio_info()
 
     assert isinstance(portfolio_info, dict)
 
-    for key in ['total_assets', 'total_market_value', 'cash', 'total_invested_value', 'today_pnl_value']:
+    for key in [
+            'total_assets', 'total_market_value', 'cash',
+            'total_invested_value', 'today_pnl_value'
+    ]:
         assert (key in portfolio_info)
 
     futubot.close_quote_context()
     futubot.close_trade_context()
+
 
 def test_calculate_portfolio_weights():
     futubot = Robot(
@@ -38,15 +37,14 @@ def test_calculate_portfolio_weights():
         paper_trading=True,
     )
 
-    portfolio = futubot.create_portfolio(
-        stocks_of_interest=['HK.00700']
-    )
+    portfolio = futubot.create_portfolio(stocks_of_interest=['HK.00700'])
 
     weights = portfolio.calculate_portfolio_weights()
     assert isinstance(weights, dict)
 
     futubot.close_quote_context()
     futubot.close_trade_context()
+
 
 def test_calculate_portfolio_metrics():
     futubot = Robot(
@@ -58,13 +56,15 @@ def test_calculate_portfolio_metrics():
     )
 
     code = 'HK.00700'
-    portfolio = futubot.create_portfolio(
-        stocks_of_interest=[code]
-    )
+    portfolio = futubot.create_portfolio(stocks_of_interest=[code])
 
     portfolio_metrics = portfolio.calculate_portfolio_metrics()
 
-    for key in ['weight', 'average_returns', 'weighted_returns', 'standard_deviation_of_returns', 'variance_of_returns', 'covariance_of_returns']:
+    for key in [
+            'weight', 'average_returns', 'weighted_returns',
+            'standard_deviation_of_returns', 'variance_of_returns',
+            'covariance_of_returns'
+    ]:
         assert key in portfolio_metrics[code]
 
     for key in ['variance', 'average_returns', 'annualized_sharpe_ratio']:
@@ -72,8 +72,3 @@ def test_calculate_portfolio_metrics():
 
     futubot.close_quote_context()
     futubot.close_trade_context()
-
-
-
-
-
