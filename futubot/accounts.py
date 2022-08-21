@@ -198,8 +198,8 @@ class Accounts:
 
         Args:
             code (str): The code of security.
-            start (str): The start time in format yyyy-MM-dd.
-            end (str): The end time in format yyyy-MM-dd.
+            start (str): The start time in format yyyy-MM-dd HH:mm:ss.
+            end (str): The end time in format yyyy-MM-dd HH:mm:ss.
             ktype (KLType): The type of candlestick. Default: K_1M.
             max_count (int): The maximum number of candlesticks
                 returned in this request. Default: 1000.

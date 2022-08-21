@@ -216,8 +216,8 @@ class Robot(Accounts):
         of historical prices.
 
         Args:
-            start_date: The start time in format yyyy-MM-dd.
-            end_date: The end time in format yyyy-MM-dd.
+            start_date: The start time in format yyyy-MM-dd HH:mm:ss.
+            end_date: The end time in format yyyy-MM-dd HH:mm:ss.
             code_list: The list of code for which historical quotes
                 are queried. Default: None, meaning all stocks in
                 portfolio are queried.
