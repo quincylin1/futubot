@@ -59,14 +59,14 @@ class Robot(Accounts):
                 within lunch break).
 
         Examples:
-        >>> current_time = 10:00:00
+        >>> current_time = HKT 10:00:00
         >>> Robot.is_regular_trading_time()
         True
-        >>> current_time = 12:30:00
+        >>> current_time = HKT 12:30:00
         >>> Robot.is_regular_trading_time()
         Trading is temporarily pasued during lunch break.
         Sleep time: 1800 s
-        >>> current_time = 17:00:00
+        >>> current_time = HKT 17:00:00
         >>> Robot.is_regular_trading_time()
         False
         """
@@ -113,7 +113,7 @@ class Robot(Accounts):
         """Create a new portfolio object.
 
         The function instantiates a Portfolio object and adds instruments
-        (stocks) to the portfolio. It first looks for existing stocks in
+        (stocks) to the portfolio. It first looks for existing stocks from
         the given trading account and adds to the portfolio, and then adds
         the extra stocks specified by the stocks_of_interest that are not
         included in the trading account to the portfolio. If the trading
@@ -212,7 +212,7 @@ class Robot(Accounts):
         This function gets the historical candlestick data of
         all the stocks present in the portfolio as a pandas DataFrame.
         The candlestick data are between start_date and end_date with
-        ktype candlestick. The dataframe is parsed into a list of dicts
+        ktype candlestick. The dataframe is converted into a list of dicts
         of historical prices.
 
         Args:

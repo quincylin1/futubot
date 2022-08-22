@@ -2,7 +2,7 @@ import pandas as pd
 
 
 class StockFrame:
-    """Implementation of a dataframe of stock data.
+    """Create a dataframe of stock data.
 
     Args:
         data (list[dict]): A list of historical quotes data
@@ -71,7 +71,7 @@ class StockFrame:
         return price_df
 
     def _set_multi_index(self, price_df):
-        """Set the index of dataframe to be MultiIndex.
+        """Set the index of dataframe to MultiIndex.
 
         The index of dataframe is set to be (code, time_key).
 

@@ -93,7 +93,7 @@ All kinds of contribution are welcome! If you would like to contribute to this p
   pytest tests
   ```
 
-  (Please click Ctrl-C to exit after pytest has been run.)
+  (Please click `Ctrl-C` to exit after pytest has been run.)
 
 - #### Step 4.2: Ensure the forked repo is up-to-date again
 
