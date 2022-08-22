@@ -413,7 +413,7 @@ def update_portfolio(n_intervals):
     State('code_names', 'value'),
     State('indicator_names', 'value')
 ])
-def run_futubot(n_intervals, code_name, indicator_name, start_date=start_date):
+def run_futubot(n_intervals, code_name, indicator_name, end_date=end_date):
     """Implementation of FutuBot in real time.
 
     This function implements the main logic of FutuBot in real time
@@ -458,7 +458,7 @@ def run_futubot(n_intervals, code_name, indicator_name, start_date=start_date):
 
     fig = go.Figure()
 
-    end_date = datetime.strptime(start_date, '%Y-%m-%d %H:%M:%S')
+    end_date = datetime.strptime(end_date, '%Y-%m-%d %H:%M:%S')
     end_date = end_date + i * timedelta(minutes=1)
     end_date = end_date.strftime('%Y-%m-%d %H:%M:%S')
 
