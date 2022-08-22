@@ -2,15 +2,15 @@
 
 ## Introduction
 
-FUTU (Futu Holdings Limited, NASDAQ: FUTU) is one of the most popular online brokers in Hong Kong. Despite its popularity, there are only limited attempts to utilize its open-source APIs for automated trading. As such, this project (named **FutuBot**) aims to use Futu APIs to build an intraday trading robot. A dashboard is also provided to show important trading statistics in real time, which include candlestick and indicators graphs, account details, portfolio distribution and trading order activity. Below shows FutuBot in action:
+FUTU (Futu Holdings Limited, NASDAQ: FUTU) is one of the most popular online brokers in Hong Kong. Despite its popularity, there have only been limited attempts to utilize its open-source APIs for automated trading. As such, this project (named **FutuBot**) aims to use Futu APIs to build an intraday trading robot. A dashboard is also provided to show important trading statistics in real time, such as candlestick and indicators graphs, account details, portfolio distribution and trading order activity. Below shows FutuBot in action:
 
 https://user-images.githubusercontent.com/33197366/185745164-57f22d37-f784-47a0-9cf5-babcd04bd7c0.mp4
 
-(Note: For privacy reason, this demo runs in paper trading mode.)
+(Note: For privacy reason, this demo runs in paper trading mode and the order_ids are hidden.)
 
 ## About Futu OpenAPI
 
-FutuBot primarily uses the APIs released by Futu for getting real-time market data as well as placing orders. The Futu OpenAPI consists of FutuOpenD and Futu API. The respective function of FutuOpenD and Futu API are outlined below:
+FutuBot primarily uses the APIs released by Futu for getting real-time market data as well as placing orders. The Futu OpenAPI consists of FutuOpenD and Futu API. The respective function of FutuOpenD and Futu API is outlined below:
 
 - FutuOpenD: The gateway program of Futu API running on user's local computer or cloud server and is responsible for transferring the protocol requests to Futu Server, and returning the processed data.
 - Futu API: An API SDK encapsulated by Futu for getting quotations and executing trading actions.
@@ -28,7 +28,7 @@ The idea of FutuBot is simple: Given a trading strategy, it uses Futu APIs to ca
 FutuBot consists of five main modules:
 
 - `Accounts`: This is where all the useful Futu APIs are encapsulated and allows the APIs to be abstracted from all other modules.
-- `Robot`: This implements the main logic of FutuBot including the creation of `StockFrame` and `Portfolio` object as well as executing orders based on indicators' signals.
+- `Robot`: This implements the main logic of FutuBot including the creation of `StockFrame` and `Portfolio` object as well as orders execution based on indicators' signals.
 - `Indicators`: This is where all the indicators are calculated and refreshed.
 - `StockFrame`: This module organizes the candlestick data and indicators into a MultiIndex pandas dataframe.
 - `Portfolio`: This module contains important imformation of user's Futu account including the total assets, total market value and portfolio distribution. It also contains common evaluation metrics for backtesting such as total PnL value and Sharpe Ratio.
@@ -37,15 +37,15 @@ In addition, there is also a `Strategy` folder which contains all the trading st
 
 ### Trading Logic
 
-FutuBot currently supports both live and paper trading, as well as market and limit orders. However, Futu OpenAPI does **not** support market orders for paper trading, so orders submitted in paper trading mode may not be filled immediately. In order to prevent pending orders from accumulating, buy and sell signals are only executed when there are no pending orders for the given code. When a buy signal is present for a given code, it buys one lot of shares if there is no holding position for that particular code. Conversely, when a sell signal is present, it sells all the current holdings only if there are holdings for that code.
+FutuBot currently supports both live and paper trading, as well as market and limit orders. However, since Futu OpenAPI does **not** support market orders for paper trading, orders submitted in paper trading mode may not be filled immediately. In order to prevent pending orders from accumulating, buy and sell signals are only executed when there are no pending orders for the given code. When a buy signal is present for a given code, it buys one lot of shares if there is no holding position for that particular code. Conversely, when a sell signal is present, it sells all the current holdings only if there are holdings for that code.
 
 ### Limitations
 
 FutuBot also comes with several limitations:
 
-- Quote Right: Since FutuBot relies on free Futu APIs, it only has quote right for LV2 securities market quotes from Hong Kong market (You can learn more about Futu quote right on the [official site](https://openapi.futunn.com/futu-api-doc/en/intro/authority.html)).
+- Quote Right: Since FutuBot relies on free Futu APIs, it only has quote right for LV2 securities market quotes from the Hong Kong market (You can learn more about Futu quote right on the [official site](https://openapi.futunn.com/futu-api-doc/en/intro/authority.html)).
 - Interface Frequency: Each Futu API has its own [frequency limitation rules](https://openapi.futunn.com/futu-api-doc/en/intro/authority.html), and an error is raised if the API is called beyond the frequency limits. For instance, `get_market_snapshot()` only allows a maximum of 60 requests every 30 seconds.
-- Real-time Dashboard Update: The Hong Kong market has a one hour lunch break from 12:00:00 to 13:00:00 during which the market is temporarily closed. Unforeseen errors may come up when running the dashboard during this time, and users need to click `Ctrl-C` to stop and restart the robot again. **It is therefore encouraged to run FutuBot during market hours only**. In addition, to avoid producing too much overhead on the real-time dashboard, the update time of the dashboard is set to 10,000 milliseconds (which can be changed depending on user's local computer). This gives rise to a certain level of latency for live graph updates when interacting with the dashboard.
+- Real-time Dashboard Update: The Hong Kong market has a one hour lunch break from HKT 12:00:00 to HKT 13:00:00, during which the market is temporarily closed. Unforeseen errors may come up when running the dashboard during this time, and users need to click `Ctrl-C` to stop and restart the robot again. **It is therefore encouraged to run FutuBot during market hours only**. In addition, to avoid producing too much overhead on the real-time dashboard, the update time of the dashboard is set to 10,000 milliseconds (which can be changed depending on user's local computer). This gives rise to a certain level of latency for live graph updates when interacting with the dashboard.
 
 ## Installation
 
