@@ -6,7 +6,7 @@ FUTU (Futu Holdings Limited, NASDAQ: FUTU) is one of the most popular online bro
 
 https://user-images.githubusercontent.com/33197366/185896471-1d1d950e-a681-404f-8a81-39e3d88cd56d.mp4
 
-(Note: For privacy reason, this demo runs in paper trading mode and the order_ids are not shown.)
+(Note: For privacy, this demo runs in paper trading mode and the order_ids are not shown.)
 
 ## About Futu OpenAPI
 
