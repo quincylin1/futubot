@@ -68,8 +68,8 @@ where the optional argument `--display-all-cols` is also specified to show all t
 To simplify the process of running FutuBot, a [config file](configs/futubot_config.py) is provided to allow users to specify the necessary parameters for running the robot. These parameters are:
 
 - `filter_trdmarket`: The transaction market. FutuBot currently supports Hong Kong market only as Futu only provides free quote right for Hong Kong securities (Please refer to Authorities and Limitations in [Futu API Doc](<>) for more details).
-- `host`: The API listening IP address. Default: 127.0.0.1 for local connections.
-- `port`: THe API listening port. Default: 11111.
+- `host`: The API listening IP address. Default: `127.0.0.1` for local connections.
+- `port`: THe API listening port. Default: `11111`.
 - `security_firm`: The security firm for intraday trading. Currently only FUTU HK (`FUTUSECURITIES`) is supported.
 - `paper_trading`: Whether to activate paper trading mode or not.
 - `password`: The password of Futu trading account for placing orders (only necessary for live trading).
