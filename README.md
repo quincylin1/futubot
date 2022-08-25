@@ -99,6 +99,6 @@ which shows the results on a real-time dashboard.
 
 This project is still at a preliminary stage and there is definitely a lot of room for improvement! For example, more indicators can be added, other trading strategies (e.g. machine learning) can be implemented, and the real-time dashboard can be improved (I am no expert in frontend development...). If you would like to contribute to this project, please refer to [CONTRIBUTING.md](docs/CONTRIBUTING.md) for a complete guide to project contribution.
 
-## Acknowledgement
+## Acknowledgements
 
 I would like to thank FUTU for generously releasing the APIs, without which this project could not be realized. I would also like to thank Alex Reed ([areed1192](https://github.com/areed1192)) for his incredibly comprehensive [tutorials](https://www.youtube.com/watch?v=QAo0x9fE6ck&list=PLcFcktZ0wnNmdgAdv4-Yl_nzS5LiKnhnn) on python trading robot, from which this project is inspired. I highly recommend his YouTube channel ([SigmaCoding](https://www.youtube.com/c/SigmaCoding)) to anyone who is interested in learning about quantitative finance and algorithmic trading!
