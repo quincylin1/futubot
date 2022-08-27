@@ -1,17 +1,19 @@
 import pandas as pd
 from futu import SecurityFirm, TrdMarket
 
+from futubot.accounts import Accounts
 from futubot.robot import Robot
 
 
 def test_create_frame():
-    futubot = Robot(
+    accounts = Accounts(
         host='127.0.0.1',
         port=11111,
         filter_trdmarket=TrdMarket.HK,
         security_firm=SecurityFirm.FUTUSECURITIES,
         paper_trading=True,
     )
+    futubot = Robot(accounts=accounts)
 
     historical_quotes = futubot.get_historical_quotes(
         start_date='2022-08-08 09:30:00',
@@ -21,18 +23,19 @@ def test_create_frame():
     stockframe = futubot.create_stockframe(data=historical_quotes)
     assert isinstance(stockframe.frame, pd.DataFrame)
 
-    futubot.close_quote_context()
-    futubot.close_trade_context()
+    accounts.close_quote_context()
+    accounts.close_trade_context()
 
 
 def test_add_rows():
-    futubot = Robot(
+    accounts = Accounts(
         host='127.0.0.1',
         port=11111,
         filter_trdmarket=TrdMarket.HK,
         security_firm=SecurityFirm.FUTUSECURITIES,
         paper_trading=True,
     )
+    futubot = Robot(accounts=accounts)
 
     historical_quotes = futubot.get_historical_quotes(
         start_date='2022-08-08 09:30:00',
@@ -57,5 +60,5 @@ def test_add_rows():
 
     assert (length_after - length_before) == 1
 
-    futubot.close_quote_context()
-    futubot.close_trade_context()
+    accounts.close_quote_context()
+    accounts.close_trade_context()

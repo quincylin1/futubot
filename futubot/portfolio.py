@@ -1,13 +1,12 @@
 from datetime import datetime, timedelta
 
 import numpy as np
-from futu import KLType, SecurityFirm, TrdMarket
+from futu import KLType
 
-from .accounts import Accounts
 from .stockframe import StockFrame
 
 
-class Portfolio(Accounts):
+class Portfolio:
     """Implementation of user's portfolio.
 
     The Portfolio class contains important imformation of user's Futu
@@ -16,23 +15,11 @@ class Portfolio(Accounts):
     such as total PnL value and Sharpe Ratio.
 
     Args:
-        host (str): FutuOpenD listening address. Default: '127.0.0.1'.
-        port (int): FutuOpenD listening port. Default: 11111.
-        filter_trdmarket (TrdMarket): Filter accounts according to the
-            transaction market authority. Default: TrdMarket.HK.
-        security_firm (SecurityFirm): Specified security firm.
-            Default: SecurityFirm.FUTUSECURITIES.
-        paper_trading (bool): Whether to enable paper trading or not.
-            Default: False.
+        accounts (Accounts): The Accounts object.
     """
-    def __init__(self,
-                 host='127.0.0.1',
-                 port=11111,
-                 filter_trdmarket=TrdMarket.HK,
-                 security_firm=SecurityFirm.FUTUSECURITIES,
-                 paper_trading=False):
-        super(Portfolio, self).__init__(host, port, filter_trdmarket,
-                                        security_firm, paper_trading)
+    def __init__(self, accounts):
+
+        self.accounts = accounts
         self.positions = {}
         self._holdings = {}
         self.positions_count = 0
@@ -86,8 +73,8 @@ class Portfolio(Accounts):
         """
         portfolio_info = {}
 
-        account_info = self.get_account_info()
-        positions_dict = self.get_positions()
+        account_info = self.accounts.get_account_info()
+        positions_dict = self.accounts.get_positions()
 
         portfolio_info['total_assets'] = account_info['total_assets']
         portfolio_info['total_market_value'] = account_info[
@@ -232,10 +219,10 @@ class Portfolio(Accounts):
         weights = {}
         weights['cash'] = 1.00
 
-        account_info = self.get_account_info()
+        account_info = self.accounts.get_account_info()
         total_market_value = account_info['total_assets']
 
-        positions_dict = self.get_positions()
+        positions_dict = self.accounts.get_positions()
 
         code_list = list(self.positions.keys())
 
@@ -474,7 +461,7 @@ class Portfolio(Accounts):
         start_date = start_date.strftime('%Y-%m-%d %H:%M:%S')
 
         for code in code_list:
-            historical_quotes = self.get_historical_candles(
+            historical_quotes = self.accounts.get_historical_candles(
                 code=code,
                 start=start_date,
                 end=end_date,

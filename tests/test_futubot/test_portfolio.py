@@ -1,16 +1,18 @@
 from futu import SecurityFirm, TrdMarket
 
+from futubot.accounts import Accounts
 from futubot.robot import Robot
 
 
 def test_get_portfolio_info():
-    futubot = Robot(
+    accounts = Accounts(
         host='127.0.0.1',
         port=11111,
         filter_trdmarket=TrdMarket.HK,
         security_firm=SecurityFirm.FUTUSECURITIES,
         paper_trading=True,
     )
+    futubot = Robot(accounts=accounts)
 
     portfolio = futubot.create_portfolio(stocks_of_interest=['HK.00700'])
 
@@ -23,36 +25,38 @@ def test_get_portfolio_info():
     ]:
         assert (key in portfolio_info)
 
-    futubot.close_quote_context()
-    futubot.close_trade_context()
+    accounts.close_quote_context()
+    accounts.close_trade_context()
 
 
 def test_calculate_portfolio_weights():
-    futubot = Robot(
+    accounts = Accounts(
         host='127.0.0.1',
         port=11111,
         filter_trdmarket=TrdMarket.HK,
         security_firm=SecurityFirm.FUTUSECURITIES,
         paper_trading=True,
     )
+    futubot = Robot(accounts=accounts)
 
     portfolio = futubot.create_portfolio(stocks_of_interest=['HK.00700'])
 
     weights = portfolio.calculate_portfolio_weights()
     assert isinstance(weights, dict)
 
-    futubot.close_quote_context()
-    futubot.close_trade_context()
+    accounts.close_quote_context()
+    accounts.close_trade_context()
 
 
 def test_calculate_portfolio_metrics():
-    futubot = Robot(
+    accounts = Accounts(
         host='127.0.0.1',
         port=11111,
         filter_trdmarket=TrdMarket.HK,
         security_firm=SecurityFirm.FUTUSECURITIES,
         paper_trading=True,
     )
+    futubot = Robot(accounts=accounts)
 
     code = 'HK.00700'
     portfolio = futubot.create_portfolio(stocks_of_interest=[code])
@@ -69,5 +73,5 @@ def test_calculate_portfolio_metrics():
     for key in ['variance', 'average_returns', 'annualized_sharpe_ratio']:
         assert key in portfolio_metrics['portfolio']
 
-    futubot.close_quote_context()
-    futubot.close_trade_context()
+    accounts.close_quote_context()
+    accounts.close_trade_context()

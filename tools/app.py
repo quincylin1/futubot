@@ -11,6 +11,7 @@ import pandas as pd
 import plotly.graph_objects as go
 from dash.dependencies import Input, Output, State
 
+from futubot.accounts import Accounts
 from futubot.indicators import Indicators
 from futubot.robot import Robot
 from utils.config import Config
@@ -35,7 +36,9 @@ pprint.pprint(cfg_dict)
 if args.display_all_cols:
     pd.set_option('display.max_columns', None)
 
-futubot = Robot(**cfg_dict['account'])
+accounts = Accounts(**cfg_dict['account'])
+
+futubot = Robot(accounts=accounts, order_type=cfg_dict['order_type'])
 
 portfolio = futubot.create_portfolio(
     stocks_of_interest=cfg_dict['stocks_of_interest'])
@@ -170,7 +173,7 @@ def generate_trading_activity_table():
             'order_type', 'qty', 'order_status', 'price',
             'currency', 'create_time', 'updated_time'.
     """
-    today_order_info = futubot.check_today_orders()
+    today_order_info = accounts.check_today_orders()
 
     if today_order_info is None:
         return [
@@ -453,7 +456,7 @@ def run_futubot(n_intervals, code_name, indicator_name):
     stockframe.add_rows(data=latest_prices)
     indicator_client.refresh()
 
-    existing_orders = futubot.check_existing_orders(
+    existing_orders = accounts.check_existing_orders(
         code_list=portfolio.holdings)
     print('existing_orders', existing_orders)
 

@@ -1,17 +1,20 @@
 from futu import SecurityFirm, TrdMarket
 
+from futubot.accounts import Accounts
 from futubot.indicators import Indicators
 from futubot.robot import Robot
 
 
 def test_change_in_price():
-    futubot = Robot(
+    accounts = Accounts(
         host='127.0.0.1',
         port=11111,
         filter_trdmarket=TrdMarket.HK,
         security_firm=SecurityFirm.FUTUSECURITIES,
         paper_trading=True,
     )
+    futubot = Robot(accounts=accounts)
+
     historical_quotes = futubot.get_historical_quotes(
         start_date='2022-08-08 09:30:00',
         end_date='2022-08-08 12:00:00',
@@ -23,18 +26,20 @@ def test_change_in_price():
     indicator_client.change_in_price()
     assert 'change_in_price' in stockframe.frame.columns
 
-    futubot.close_quote_context()
-    futubot.close_trade_context()
+    accounts.close_quote_context()
+    accounts.close_trade_context()
 
 
 def test_rsi():
-    futubot = Robot(
+    accounts = Accounts(
         host='127.0.0.1',
         port=11111,
         filter_trdmarket=TrdMarket.HK,
         security_firm=SecurityFirm.FUTUSECURITIES,
         paper_trading=True,
     )
+    futubot = Robot(accounts=accounts)
+
     historical_quotes = futubot.get_historical_quotes(
         start_date='2022-08-08 09:30:00',
         end_date='2022-08-08 12:00:00',
@@ -47,18 +52,20 @@ def test_rsi():
     indicator_client.rsi(period=period)
     assert ('rsi_' + str(period)) in stockframe.frame.columns
 
-    futubot.close_quote_context()
-    futubot.close_trade_context()
+    accounts.close_quote_context()
+    accounts.close_trade_context()
 
 
 def test_sma():
-    futubot = Robot(
+    accounts = Accounts(
         host='127.0.0.1',
         port=11111,
         filter_trdmarket=TrdMarket.HK,
         security_firm=SecurityFirm.FUTUSECURITIES,
         paper_trading=True,
     )
+    futubot = Robot(accounts=accounts)
+
     historical_quotes = futubot.get_historical_quotes(
         start_date='2022-08-08 09:30:00',
         end_date='2022-08-08 12:00:00',
@@ -71,18 +78,20 @@ def test_sma():
     indicator_client.sma(period=period)
     assert ('sma_' + str(period)) in stockframe.frame.columns
 
-    futubot.close_quote_context()
-    futubot.close_trade_context()
+    accounts.close_quote_context()
+    accounts.close_trade_context()
 
 
 def test_ema():
-    futubot = Robot(
+    accounts = Accounts(
         host='127.0.0.1',
         port=11111,
         filter_trdmarket=TrdMarket.HK,
         security_firm=SecurityFirm.FUTUSECURITIES,
         paper_trading=True,
     )
+    futubot = Robot(accounts=accounts)
+
     historical_quotes = futubot.get_historical_quotes(
         start_date='2022-08-08 09:30:00',
         end_date='2022-08-08 12:00:00',
@@ -95,18 +104,20 @@ def test_ema():
     indicator_client.ema(period=period)
     assert ('ema_' + str(period)) in stockframe.frame.columns
 
-    futubot.close_quote_context()
-    futubot.close_trade_context()
+    accounts.close_quote_context()
+    accounts.close_trade_context()
 
 
 def test_macd():
-    futubot = Robot(
+    accounts = Accounts(
         host='127.0.0.1',
         port=11111,
         filter_trdmarket=TrdMarket.HK,
         security_firm=SecurityFirm.FUTUSECURITIES,
         paper_trading=True,
     )
+    futubot = Robot(accounts=accounts)
+
     historical_quotes = futubot.get_historical_quotes(
         start_date='2022-08-08 09:30:00',
         end_date='2022-08-08 12:00:00',
@@ -125,18 +136,20 @@ def test_macd():
     assert 'signal' in stockframe.frame.columns
     assert 'histogram' in stockframe.frame.columns
 
-    futubot.close_quote_context()
-    futubot.close_trade_context()
+    accounts.close_quote_context()
+    accounts.close_trade_context()
 
 
 def test_bollinger_bands():
-    futubot = Robot(
+    accounts = Accounts(
         host='127.0.0.1',
         port=11111,
         filter_trdmarket=TrdMarket.HK,
         security_firm=SecurityFirm.FUTUSECURITIES,
         paper_trading=True,
     )
+    futubot = Robot(accounts=accounts)
+
     historical_quotes = futubot.get_historical_quotes(
         start_date='2022-08-08 09:30:00',
         end_date='2022-08-08 12:00:00',
@@ -151,18 +164,20 @@ def test_bollinger_bands():
     assert 'upper_band' in stockframe.frame.columns
     assert 'lower_band' in stockframe.frame.columns
 
-    futubot.close_quote_context()
-    futubot.close_trade_context()
+    accounts.close_quote_context()
+    accounts.close_trade_context()
 
 
 def test_stochastic_oscillator():
-    futubot = Robot(
+    accounts = Accounts(
         host='127.0.0.1',
         port=11111,
         filter_trdmarket=TrdMarket.HK,
         security_firm=SecurityFirm.FUTUSECURITIES,
         paper_trading=True,
     )
+    futubot = Robot(accounts=accounts)
+
     historical_quotes = futubot.get_historical_quotes(
         start_date='2022-08-08 09:30:00',
         end_date='2022-08-08 12:00:00',
@@ -178,18 +193,20 @@ def test_stochastic_oscillator():
     assert '%K' in stockframe.frame.columns
     assert '%D' in stockframe.frame.columns
 
-    futubot.close_quote_context()
-    futubot.close_trade_context()
+    accounts.close_quote_context()
+    accounts.close_trade_context()
 
 
 def test_standard_deviation():
-    futubot = Robot(
+    accounts = Accounts(
         host='127.0.0.1',
         port=11111,
         filter_trdmarket=TrdMarket.HK,
         security_firm=SecurityFirm.FUTUSECURITIES,
         paper_trading=True,
     )
+    futubot = Robot(accounts=accounts)
+
     historical_quotes = futubot.get_historical_quotes(
         start_date='2022-08-08 09:30:00',
         end_date='2022-08-08 12:00:00',
@@ -203,5 +220,5 @@ def test_standard_deviation():
 
     assert 'standard_deviation' in stockframe.frame.columns
 
-    futubot.close_quote_context()
-    futubot.close_trade_context()
+    accounts.close_quote_context()
+    accounts.close_trade_context()

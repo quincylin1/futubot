@@ -1,36 +1,39 @@
 import pytest
 from futu import RET_OK, ModifyOrderOp, SecurityFirm, TrdMarket
 
+from futubot.accounts import Accounts
 from futubot.portfolio import Portfolio
 from futubot.robot import Robot
 from futubot.stockframe import StockFrame
 
 
 def test_create_portfolio():
-    futubot = Robot(
+    accounts = Accounts(
         host='127.0.0.1',
         port=11111,
         filter_trdmarket=TrdMarket.HK,
         security_firm=SecurityFirm.FUTUSECURITIES,
         paper_trading=True,
     )
+    futubot = Robot(accounts=accounts)
 
     portfolio = futubot.create_portfolio(
         stocks_of_interest=['HK.00001', 'HK.00700'])
     assert isinstance(portfolio, Portfolio)
 
-    futubot.close_quote_context()
-    futubot.close_trade_context()
+    accounts.close_quote_context()
+    accounts.close_trade_context()
 
 
 def test_create_stockframe():
-    futubot = Robot(
+    accounts = Accounts(
         host='127.0.0.1',
         port=11111,
         filter_trdmarket=TrdMarket.HK,
         security_firm=SecurityFirm.FUTUSECURITIES,
         paper_trading=True,
     )
+    futubot = Robot(accounts=accounts)
 
     historical_quotes = futubot.get_historical_quotes(
         start_date='2022-08-08 09:30:00',
@@ -40,18 +43,19 @@ def test_create_stockframe():
     stockframe = futubot.create_stockframe(data=historical_quotes)
     assert isinstance(stockframe, StockFrame)
 
-    futubot.close_quote_context()
-    futubot.close_trade_context()
+    accounts.close_quote_context()
+    accounts.close_trade_context()
 
 
 def test_get_historical_quotes():
-    futubot = Robot(
+    accounts = Accounts(
         host='127.0.0.1',
         port=11111,
         filter_trdmarket=TrdMarket.HK,
         security_firm=SecurityFirm.FUTUSECURITIES,
         paper_trading=True,
     )
+    futubot = Robot(accounts=accounts)
 
     historical_quotes = futubot.get_historical_quotes(
         start_date='2022-08-08 09:30:00',
@@ -62,18 +66,19 @@ def test_get_historical_quotes():
     for key in ['time_key', 'code', 'open', 'close', 'high', 'low', 'volume']:
         assert (key in historical_quotes[0])
 
-    futubot.close_quote_context()
-    futubot.close_trade_context()
+    accounts.close_quote_context()
+    accounts.close_trade_context()
 
 
 def test_get_latest_bar():
-    futubot = Robot(
+    accounts = Accounts(
         host='127.0.0.1',
         port=11111,
         filter_trdmarket=TrdMarket.HK,
         security_firm=SecurityFirm.FUTUSECURITIES,
         paper_trading=True,
     )
+    futubot = Robot(accounts=accounts)
 
     with pytest.raises(TypeError):
         futubot.get_latest_bar(code_list=['Hk.00700'], demo='True')
@@ -87,18 +92,19 @@ def test_get_latest_bar():
     for key in ['time_key', 'code', 'open', 'close', 'high', 'low', 'volume']:
         assert (key in latest_prices[0])
 
-    futubot.close_quote_context()
-    futubot.close_trade_context()
+    accounts.close_quote_context()
+    accounts.close_trade_context()
 
 
 def test_execute_signals():
-    futubot = Robot(
+    accounts = Accounts(
         host='127.0.0.1',
         port=11111,
         filter_trdmarket=TrdMarket.HK,
         security_firm=SecurityFirm.FUTUSECURITIES,
         paper_trading=True,
     )
+    futubot = Robot(accounts=accounts)
 
     with pytest.raises(TypeError):
         futubot.execute_signals(buy_sell_signals=['buys', 'sells'])
@@ -138,5 +144,5 @@ def test_execute_signals():
     else:
         print('Error in cancel_all_orders: ', data)
 
-    futubot.close_quote_context()
-    futubot.close_trade_context()
+    accounts.close_quote_context()
+    accounts.close_trade_context()

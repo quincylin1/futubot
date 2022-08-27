@@ -3,6 +3,7 @@ import pprint
 
 import pandas as pd
 
+from futubot.accounts import Accounts
 from futubot.indicators import Indicators
 from futubot.robot import Robot
 from utils.config import Config
@@ -28,7 +29,9 @@ def main():
     if args.display_all_cols:
         pd.set_option('display.max_columns', None)
 
-    futubot = Robot(**cfg_dict['account'])
+    accounts = Accounts(**cfg_dict['account'])
+
+    futubot = Robot(accounts=accounts, order_type=cfg_dict['order_type'])
 
     portfolio = futubot.create_portfolio(
         stocks_of_interest=cfg_dict['stocks_of_interest'])
@@ -65,7 +68,7 @@ def main():
         stockframe.add_rows(data=latest_prices)
         indicator_client.refresh()
 
-        existing_orders = futubot.check_existing_orders(
+        existing_orders = accounts.check_existing_orders(
             code_list=portfolio.holdings)
         print('existing_orders', existing_orders)
 
@@ -92,7 +95,7 @@ def main():
     print('')
     pprint.pprint(portfolio.portfolio_info)
 
-    futubot.cancel_all_orders()
+    accounts.cancel_all_orders()
     print('Outside regular trading hours, press Ctrl-C to exit.')
 
 

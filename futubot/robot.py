@@ -4,38 +4,22 @@ import time
 from datetime import datetime, timedelta
 
 import pandas as pd
-from futu import KLType, SecurityFirm, TrdMarket, TrdSide
+from futu import KLType, TrdSide
 
-from .accounts import Accounts
 from .portfolio import Portfolio
 from .stockframe import StockFrame
 
 
-class Robot(Accounts):
+class Robot:
     """Implementation of the main logic of FutuBot.
 
     Args:
-        host (str): FutuOpenD listening address. Default: '127.0.0.1'.
-        port (int): FutuOpenD listening port. Default: 11111.
-        filter_trdmarket (TrdMarket): Filter accounts according to the
-            transaction market authority. Default: TrdMarket.HK.
-        security_firm (SecurityFirm): Specified security firm.
-            Default: SecurityFirm.FUTUSECURITIES.
-        paper_trading (bool): Whether to enable paper trading or not.
-            Default: False.
-        password (str): Transaction password.
+        accounts (Accounts): The Accounts object.
         order_type (str): The type of order. Default: limit.
     """
-    def __init__(self,
-                 host='127.0.0.1',
-                 port=11111,
-                 filter_trdmarket=TrdMarket.HK,
-                 security_firm=SecurityFirm.FUTUSECURITIES,
-                 paper_trading=False,
-                 password='******',
-                 order_type='limit'):
-        super(Robot, self).__init__(host, port, filter_trdmarket,
-                                    security_firm, paper_trading, password)
+    def __init__(self, accounts, order_type='limit'):
+
+        self.accounts = accounts
         self.trades = {}
         self.historical_quotes = {}
         self.stockframe = None
@@ -139,13 +123,9 @@ class Robot(Accounts):
          'HK.09988': {'code': 'HK.09988', 'qty': 0,
              'stock_name': 'BABA-SW'}}
         """
-        self.portfolio = Portfolio(filter_trdmarket=self.filter_trdmarket,
-                                   host=self.host,
-                                   port=self.port,
-                                   security_firm=self.security_firm,
-                                   paper_trading=self.paper_trading)
+        self.portfolio = Portfolio(accounts=self.accounts)
 
-        existing_positions = self.get_positions()
+        existing_positions = self.accounts.get_positions()
 
         if stocks_of_interest is None and not existing_positions:
             raise ValueError('Cannot have an empty portfolio.'
@@ -161,7 +141,7 @@ class Robot(Accounts):
                     )
 
             if stocks_of_interest is not None:
-                market_state = self.get_market_state(
+                market_state = self.accounts.get_market_state(
                     code_list=stocks_of_interest)
 
                 for code in stocks_of_interest:
@@ -243,7 +223,7 @@ class Robot(Accounts):
             code_list = list(self.portfolio.positions.keys())
 
         for code in code_list:
-            historical_quotes = self.get_historical_candles(
+            historical_quotes = self.accounts.get_historical_candles(
                 code=code,
                 start=start_date,
                 end=end_date,
@@ -335,7 +315,7 @@ class Robot(Accounts):
             start_date = start_date.strftime('%Y-%m-%d %H:%M:%S')
 
         for code in code_list:
-            historical_quotes = self.get_historical_candles(
+            historical_quotes = self.accounts.get_historical_candles(
                 code=code,
                 start=start_date,
                 end=end_date,
@@ -395,7 +375,7 @@ class Robot(Accounts):
 
         if buy_signals:
             code_list = list(buy_signals.keys())
-            lot_sizes = self.get_lot_size(code_list=code_list)
+            lot_sizes = self.accounts.get_lot_size(code_list=code_list)
 
             for code in code_list:
                 price = buy_signals[code]['close']
@@ -403,15 +383,15 @@ class Robot(Accounts):
                 qty = lot_sizes[code]
 
                 # Check if exceed max buy power:
-                max_power = self.get_max_power(code=code,
-                                               price=price,
-                                               order_type=self.order_type)
+                max_power = self.accounts.get_max_power(
+                    code=code, price=price, order_type=self.order_type)
                 if qty < max_power['max_cash_buy']:
-                    order_info = self.place_order(price=price,
-                                                  qty=qty,
-                                                  code=code,
-                                                  order_type=self.order_type,
-                                                  trd_side=TrdSide.BUY)
+                    order_info = self.accounts.place_order(
+                        price=price,
+                        qty=qty,
+                        code=code,
+                        order_type=self.order_type,
+                        trd_side=TrdSide.BUY)
                     order_infos[code] = order_info
 
         if sell_signals:
@@ -426,11 +406,10 @@ class Robot(Accounts):
                 qty = self.portfolio.holdings[code]
 
                 # Check if exceed max sell power:
-                max_power = self.get_max_power(code=code,
-                                               price=price,
-                                               order_type=self.order_type)
+                max_power = self.accounts.get_max_power(
+                    code=code, price=price, order_type=self.order_type)
                 if qty <= max_power['max_position_sell']:
-                    order_info = self.place_order(
+                    order_info = self.accounts.place_order(
                         price=price,
                         qty=qty,
                         code=code,
@@ -491,7 +470,7 @@ class Robot(Accounts):
         """
         print('Ctrl-C is pressed, cancelling all pending orders now...')
 
-        self.cancel_all_orders()
+        self.accounts.cancel_all_orders()
         signal.signal(signal.SIGINT, signal.SIG_DFL)
         print('Press Ctrl-C again to exit.')
         # Put the program on sleep forever.
