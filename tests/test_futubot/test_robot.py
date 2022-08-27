@@ -133,7 +133,7 @@ def test_execute_signals():
     ]:
         assert (key in order_infos['HK.00002'])
 
-    ret, data = futubot.trade_context.modify_order(
+    ret, data = accounts.trade_context.modify_order(
         modify_order_op=ModifyOrderOp.CANCEL,
         order_id=order_infos['HK.00002']['order_id'],
         qty=0,
